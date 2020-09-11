@@ -1,27 +1,52 @@
 <template>
-  <div id="app">
-    <router-view v-if="isRouterAlive"></router-view>
-  </div>
+    <div id="app">
+        <router-view v-if="isRouterAlive"></router-view>
+        <!--<router-view></router-view>-->
+    </div>
 </template>
+
+
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+    .el-header {
+        background-color: #B3C0D1;
+        color: #333;
+        line-height: 60px;
+    }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+    .el-aside {
+        color: #333;
+    }
 </style>
+
+<script>
+    export default {
+        // inject:['reload'],
+        provide(){
+            return{
+                reload:this.reload
+            }
+
+        },
+        data() {
+            const item = {
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            };
+            return {
+                tableData: Array(20).fill(item),
+                isRouterAlive:true,
+            }
+        },
+        methods:{
+            reload(){
+                this.isRouterAlive=false;
+                this.$nextTick(function () {
+                    this.isRouterAlive=true;
+
+                })
+            }
+        }
+    };
+</script>
