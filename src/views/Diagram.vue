@@ -15,7 +15,7 @@
             </el-header>
 
             <el-container>
-                <el-aside width="280px">
+                <el-aside width="200px">
                     <el-menu :default-openeds="['/Diagram']" :default-active="$route.path"
                              router
 
@@ -28,7 +28,7 @@
                         </el-menu-item>
 
                         <el-menu-item index="/Diagram" style="height: 70px">
-                            <template slot="title"><i class="el-icon-s-marketing"></i>Data Analysis and Visualization</template>
+                            <template slot="title"><i class="el-icon-s-marketing"></i>Data Analysis</template>
                         </el-menu-item>
 
                         <el-menu-item index="/Allportfolio" style="height: 70px">

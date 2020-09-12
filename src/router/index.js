@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import About from '../views/About.vue'
 import Index from '../views/Index'
 import Diagram from '../views/Diagram'
 import Allportfolio from '../views/Allportfolio'
 import Add from '../views/Add'
+import test from '../views/test'
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +24,25 @@ const routes = [
         path: '/Allportfolio',
         name: '获取所有portfolio',
         component: Allportfolio
+    },
+    {
+        path: '/Add',
+        name: '添加portfolio',
+        component: Add,
+    },
+    {
+        path: '/Home',
+        name: '',
+        component: Home,
+    },
+    {
+        path: '/About',
+        name: '',
+        component: About,
+    },
+    {
+        path:'/test',
+        component:test
     }
 
 ]
