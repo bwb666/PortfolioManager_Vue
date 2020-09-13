@@ -1,29 +1,30 @@
 
 <template>
-    <div class="content">
-        <div class="right">
+    <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" style="width: 100%">
 
-            <select name="sex" width='100' v-model="formData.sex">
-                <option value="" selected>请选择</option>
-                <option value="1">男</option>
-                <option value="2">女</option>
-                <option value="3">不是人</option>
-            </select>
+        <el-form-item label="Type">
+            <el-select v-model="ruleForm.valuetype" placeholder="请选择" style="width: 400px;text-align: center">
+                <el-option
+                        v-for="item in options"
+                        :key="item.valuetype"
+                        :label="item.label"
+                        :value="item.valuetype">
+                </el-option>
+            </el-select>
+        </el-form-item>
 
-            <input type="text" v-model="formData.phone" placeholder="电话(精准搜索)">
+        <el-form-item label="Symbol">
+            <el-input v-model="ruleForm.symbol" prop="symbol" placeholder="请输入内容"></el-input>
+        </el-form-item>
 
-            <input type="text" v-model="formData.name" placeholder="姓名(模糊搜索)">
 
-            <button @click="search(formData)">提交数据</button>
-        </div>
-        <div class="left">
-            <ul>
-                <li v-for="(item,index) in  realList" :key="index">
-                    {{item.name}} || {{item.phone}} || {{item.sex | filterSex}}
-                </li>
-            </ul>
-        </div>
-    </div>
+        <el-form-item>
+            <el-button type="primary " style="width: 200px;margin-left: 80px" @click="submitForm('ruleForm')">Add</el-button>
+
+        </el-form-item>
+
+
+    </el-form>
 
 </template>
 
@@ -32,104 +33,64 @@
         name: 'styleTest',
         data() {
             return {
-                formData: {
-                    name: '',
-                    phone: '',
-                    sex: '',
+                ruleForm:{
+                    valuetype:'',
+                    symbol:''
+
                 },
-                realList: [],
-                list: [
-                    {
-                        name: '张址',
-                        phone: 18715023011,
-                        sex: 1,
-                    },
-                    {
-                        name: '张三',
-                        phone: 18715023012,
-                        sex: 2,
-                    },
-                    {
-                        name: '李四',
-                        phone: 18715023013,
-                        sex: 1,
-                    },
-                    {
-                        name: '赵武',
-                        phone: 18715023014,
-                        sex: 2,
-                    },
-                    {
-                        name: '晋南',
-                        phone: 18715023015,
-                        sex: 1,
-                    },
-                    {
-                        name: '张东',
-                        phone: 18715023016,
-                        sex: 2,
-                    },
-                ],
+                rules: {
+                    symbol: [
+                        {required: true, message: '系统名称不能为空', trigger: 'blur'},
+                    ]
+                },
+
+                options: [{
+                    valuetype: 'Bond',
+                    label: 'Bond'
+                }, {
+                    valuetype: 'Stock',
+                    label: 'Stock'
+                }, {
+                    valuetype: 'Future',
+                    label: 'Future'
+                }, {
+                    valuetype: 'ETF',
+                    label: 'ETF'
+                }],
+
             };
         },
-        filters: {
-            filterSex(val) {
-                switch (val) {
-                    case 1:
-                        return '男';
-                        break;
-                    case 2:
-                        return '女';
-                        break;
-                    case 3:
-                        return '不是人';
-                        break;
-                    default:
-                        return '男';
-                }
-            },
-        },
-        computed: {
-            // realList() {
-            //   let { name, phone, sex } = this.formData;
-            //   if (name && phone && sex) {
-            //     return this.list;
-            //   }
-            // },
-        },
-        created() {
-            this.search({});
-        },
+
         methods: {
-            search({ name, phone, sex }) {
-                console.log(this.name)
-                this.realList = this.list.filter(item => {
-                    let matchName = true; // 姓名 筛选
-                    let matchSex = true; // 性别 筛选
-                    let matchPhone = true; // 号码 筛选
-
-                    if (sex) {
-                        matchSex = item.sex == sex;
-                        console.log(matchSex)
-                    }
-
-                    if (phone) {
-                        // console.info(Object.prototype.toString.call(phone));
-                        matchPhone = item.phone == phone;
-                    }
-
-                    if (name) {
-                        // 模糊搜索;
-                        const keys = name
-                            .toUpperCase() // 转大写
-                            .replace(' ', '') // 删掉空格
-                            .split(''); // 切割成 单个字
-
-                        matchName = keys.every(key => item.name.toUpperCase().includes(key));
-                    }
-                    return matchName && matchPhone && matchSex;
-                });
+            submitForm(formName) {
+                const _this=this;
+                console.log(_this.ruleForm)
+                // this.$refs[formName].validate((valid) => {
+                //     if (valid) {
+                //         axios.post('http://localhost:8181/addsymbol',this.ruleForm).then(function (resp) {
+                //             console.log(resp)
+                //             // if(resp.data =='success'){
+                //             //     _this.$alert('添加成功!', '消息', {
+                //             //         confirmButtonText: '确定',
+                //             //         callback: action => {
+                //             //             // _this.$router.push('/Zonghe')
+                //             //             // _this.reload()
+                //             //             // router.go(0)
+                //             //         }
+                //             //
+                //             //     });
+                //             //     _this.reload()
+                //             //
+                //             // }
+                //         })
+                //
+                //     } else {
+                //         console.log('error submit!!');
+                //         return false;
+                //     }
+                // });
             },
+
         },
     };
 </script>

@@ -281,13 +281,13 @@
         methods: {
             cellStyle({row, column, rowIndex, columnIndex}) {
                 if (columnIndex === 0 || columnIndex === 1 || columnIndex === 2 || columnIndex === 3 || columnIndex === 4 || columnIndex === 5 || columnIndex === 6 || columnIndex === 7) { //指定坐标
-                    return 'background:#E0EBF6'
+                    return 'background:#E0EBF6; border: 1px solid white;'
                 } else if (columnIndex === 8 || columnIndex === 9) {
-                    return 'background:#F8E2D8'
+                    return 'background:#F8E2D8; border: 1px solid white'
                 } else if(columnIndex === 10 || columnIndex === 11){
-                    return 'background:#E6EFDD'
+                    return 'background:#E6EFDD; border: 1px solid white'
                 }else if(columnIndex === 12 || columnIndex === 13|| columnIndex === 14){
-                    return 'background:#D2CED0'
+                    return 'background:#D2CED0; border: 1px solid white'
                 }
                 else {
                     return ''
@@ -295,13 +295,13 @@
             },
             tableHeaderStyle({row, column, rowIndex, columnIndex}) {
                 if (columnIndex === 0 || columnIndex === 1 || columnIndex === 2 || columnIndex === 3 || columnIndex === 4 || columnIndex === 5 || columnIndex === 6 || columnIndex === 7) { //指定坐标
-                    return 'background-color:#284D78;color:#fff'
+                    return 'background-color:#284D78;color:#fff; border: 1px solid white'
                 } else if (columnIndex === 8 || columnIndex === 9) {
-                    return 'background-color:#614436;color:#fff'
+                    return 'background-color:#614436;color:#fff; border: 1px solid white'
                 } else if(columnIndex === 10 || columnIndex === 11){
-                    return 'background-color:#3F552A;color:#fff'
+                    return 'background-color:#3F552A;color:#fff; border: 1px solid white'
                 }else if(columnIndex === 12 || columnIndex === 13|| columnIndex === 14){
-                    return 'background-color:#181718;color:#fff'
+                    return 'background-color:#181718;color:#fff; border: 1px solid white'
                 }
                 else {
                     return ''
