@@ -1,131 +1,96 @@
 <template>
-  <div class="dormitory">
-    <div class="searchWord">
-      <div style="display: inline-block"> 搜索：</div>
-      <el-input v-model="search" style="display: inline-block;width: 1300px"
-                placeholder="请输入搜索内容">
-      </el-input>
+    <div>
+    <el-button @click="resetDateFilter">清除日期过滤器</el-button>
+    <el-button @click="clearFilter">清除所有过滤器</el-button>
+    <el-table
+            ref="filterTable"
+            :data="tableData"
+            style="width: 100%">
+        <el-table-column
+                prop="date"
+                label="日期"
+                sortable
+                width="180"
+                column-key="date"
+                :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
+                :filter-method="filterHandler"
+        >
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="姓名"
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="address"
+                label="地址"
+                :formatter="formatter">
+        </el-table-column>
+        <el-table-column
+                prop="tag"
+                label="标签"
+                width="100"
+                :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
+                :filter-method="filterTag"
+                filter-placement="bottom-end">
+            <template slot-scope="scope">
+                <el-tag
+                        :type="scope.row.tag === '家' ? 'primary' : 'success'"
+                        disable-transitions>{{scope.row.tag}}</el-tag>
+            </template>
+        </el-table-column>
+    </el-table>
     </div>
-    // 遍历表格
-    <div class="dormitoryData">
-      <el-table
-              ref="dormitoryTable"
-              :data="tables"
-              tooltip-effect="dark"
-              stripe
-              style="width: 100%">
-        <el-table-column type="selection" width="45"></el-table-column>
-        <el-table-column label="序号"  type="index" width="65"></el-table-column>
-        <el-table-column label="人物" prop="people">
-        </el-table-column>
-        <el-table-column label="关系" prop="relationship">
-        </el-table-column>
-        <el-table-column label="初见" prop="meet">
-        </el-table-column>
-        <el-table-column label="地点" prop="place">
-        </el-table-column>
-        <el-table-column label="昵称" prop="execg">
-        </el-table-column>
-        <el-table-column label="认识年限" prop="year">
-        </el-table-column>
-        <el-table-column label="成名之作" prop="works">
-        </el-table-column>
-      </el-table>
-    </div>
-  </div>
 </template>
-
 
 <script>
     export default {
-        data () {
+        data() {
             return {
-                dormitory: [{
-                    people: '雷森',
-                    relationship: '大学室友',
-                    meet: '2010-09-02',
-                    place: '图书馆',
-                    execg: '胖子',
-                    year: '8年',
-                    works: '海阔天空'
+                tableData: [{
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    tag: '家'
                 }, {
-                    people: '刘利伟',
-                    relationship: '大学室友',
-                    meet: '2010-09-02',
-                    place: '5#633',
-                    execg: '老大',
-                    year: '8年',
-                    works: '勇气'
+                    date: '2016-05-04',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1517 弄',
+                    tag: '公司'
                 }, {
-                    people: '李金龙',
-                    relationship: '大学室友',
-                    meet: '2010-09-02',
-                    place: '5#633',
-                    execg: '二哥',
-                    year: '8年',
-                    works: '遇见'
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄',
+                    tag: '家'
                 }, {
-                    people: '马康',
-                    relationship: '大学室友',
-                    meet: '2010-09-02',
-                    place: '餐饮大厦',
-                    execg: '康哥',
-                    year: '8年',
-                    works: '不再联系'
-                }, {
-                    people: '牛光卫',
-                    relationship: '大学室友',
-                    meet: '2010-09-02',
-                    place: '图书馆',
-                    execg: '牛牛娃',
-                    year: '8年',
-                    works: '断点'
-                }, {
-                    people: '陆兆攀',
-                    relationship: '大学室友',
-                    meet: '1991-07-27',
-                    place: '百浪',
-                    execg: '帅哥',
-                    year: '27年',
-                    works: '不再犹豫'
-                }, {
-                    people: '小甜',
-                    relationship: '亲密的人',
-                    meet: '2016-10-05',
-                    place: '小寨',
-                    execg: '甜甜圈',
-                    year: '2年',
-                    works: 'Forever Love'
-                }],
-                search: ''
-            }
-        },
-        computed: {
-            // 模糊搜索
-            tables () {
-                const search = this.search
-                if (search) {
-                    // filter() 方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
-                    // 注意： filter() 不会对空数组进行检测。
-                    // 注意： filter() 不会改变原始数组。
-                    return this.dormitory.filter(data => {
-                        // some() 方法用于检测数组中的元素是否满足指定条件;
-                        // some() 方法会依次执行数组的每个元素：
-                        // 如果有一个元素满足条件，则表达式返回true , 剩余的元素不会再执行检测;
-                        // 如果没有满足条件的元素，则返回false。
-                        // 注意： some() 不会对空数组进行检测。
-                        // 注意： some() 不会改变原始数组。
-                        return Object.keys(data).some(key => {
-                            // indexOf() 返回某个指定的字符在某个字符串中首次出现的位置，如果没有找到就返回-1；
-                            // 该方法对大小写敏感！所以之前需要toLowerCase()方法将所有查询到内容变为小写。
-                            return String(data[key]).toLowerCase().indexOf(search) > -1
-                        })
-                    })
-                }
-                return this.dormitory
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄',
+                    tag: '公司'
+                }]
             }
         },
         methods: {
+            resetDateFilter() {
+                this.$refs.filterTable.clearFilter('date');
+            },
+            clearFilter() {
+                this.$refs.filterTable.clearFilter();
+            },
+            formatter(row, column) {
+                return row.address;
+            },
+            filterTag(value, row) {
+                return row.tag === value;
+            },
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
+            }
         }
     }
 </script>
+
+<style scoped>
+
+</style>

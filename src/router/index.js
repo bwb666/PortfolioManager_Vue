@@ -7,6 +7,9 @@ import Diagram from '../views/Diagram'
 import Allportfolio from '../views/Allportfolio'
 import Add from '../views/Add'
 import test from '../views/test'
+import echarts from '../views/Echarts'
+import pieChart from '../views/pieChart'
+import zhexian from '../views/zhexian'
 Vue.use(VueRouter)
 
 const routes = [
@@ -43,6 +46,18 @@ const routes = [
     {
         path:'/test',
         component:test
+    },
+    {
+        path:'/echarts',
+        component:echarts
+    },
+    {
+        path:'/piechart',
+        component:pieChart
+    },
+    {
+        path:'/zhexian',
+        component:zhexian
     }
 
 ]

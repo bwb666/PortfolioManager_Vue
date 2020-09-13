@@ -15,7 +15,7 @@
             </el-header>
 
             <el-container>
-                <el-aside width="200px">
+                <el-aside width="200px" style="height: 600px">
                     <el-menu :default-openeds="['/Allportfolio']" :default-active="$route.path"
                              router
 
@@ -35,24 +35,7 @@
                             <template slot="title"><i class="el-icon-s-management"></i>Portfolios</template>
                         </el-menu-item>
 
-                        <el-menu-item style="height: 70px">
 
-                        </el-menu-item>
-
-                        <el-menu-item style="height: 70px">
-
-                        </el-menu-item>
-
-                        <el-menu-item style="height: 70px">
-
-                        </el-menu-item>
-
-                        <el-menu-item style="height: 70px">
-
-                        </el-menu-item>
-                        <el-menu-item style="height: 70px">
-
-                        </el-menu-item>
 
                     </el-menu>
                 </el-aside>
@@ -60,33 +43,18 @@
 
                 <el-main >
                     <body style="margin-top: 15px">
-                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                        <el-form-item label="Symbol">
-                            <el-input v-model="formInline.symbol" style="width: 220px"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Name">
-                            <el-input v-model="formInline.name" style="width: 220px" ></el-input>
-                        </el-form-item>
-                        <el-form-item label="Type">
-                            <el-select v-model="formInline.value" clearable placeholder="">
-                                <el-option
-                                        v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
 
-                        <el-button type="primary" icon="el-icon-search" style="margin-left: 25px" @click="searchInfo()">Search</el-button>
-                        <el-button type="warning" icon="el-icon-plus" circle style="margin-left: 35px" @click="add()"></el-button>
+                    <el-input v-model="search" style="display: inline-block;width: 900px"
+                              placeholder="Please input symbol or name of the portfolio">
+                    </el-input>
+                    <el-button type="primary" plain @click="resetDateFilter" style="margin-left: 25px">Reset Type</el-button>
+                    <el-button type="warning" icon="el-icon-plus" circle style="margin-left: 25px" @click="add()"></el-button>
 
-
-                    </el-form>
                     </body>
                     <template>
                         <el-table
-                                :data="tableData"
+                                ref="filterTable"
+                                :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()) || data.symbol.toLowerCase().includes(search.toLowerCase()))"
                                 height="480"
                                 border
                                 style=""
@@ -96,7 +64,7 @@
                             <el-table-column
                                     prop="id"
                                     label="ID"
-                                    width="100">
+                                    width="60">
                             </el-table-column>
                             <el-table-column
                                     prop="name"
@@ -112,7 +80,10 @@
                             <el-table-column
                                     prop="type"
                                     label="Type"
-                                    width="70">
+                                    width="70"
+                                    column-key="type"
+                                    :filters="[{text: 'Bond', value: 'Bond'}, {text: 'Stock', value: 'Stock'}, {text: 'Future', value: 'Future'}, {text: 'ETF', value: 'ETF'}]"
+                                    :filter-method="filterHandler">
                             </el-table-column>
 
                             <el-table-column
@@ -182,10 +153,7 @@
 
                                 <template slot-scope="scope">
 
-                                    <!--<el-button-->
-                                    <!--size="mini"-->
-                                    <!--type="danger"-->
-                                    <!--@click="deleteSystem(scope.row)">Delete</el-button>-->
+
                                     <el-popconfirm
                                             title="确认删除该项吗？"
 
@@ -224,20 +192,21 @@
                     value:''
                 },
                 options: [{
-                    value: 'Bond',
+                    value: '1',
                     label: 'Bond'
                 }, {
-                    value: 'Stock',
+                    value: '2',
                     label: 'Stock'
                 }, {
-                    value: 'Future',
+                    value: '3',
                     label: 'Future'
                 }, {
-                    value: 'ETF',
+                    value: '4',
                     label: 'ETF'
                 }],
                 value: '',
-                tableData: [{
+                tableData: [
+                    {
                     id: '1',
                     name: 'apple',
                     symbol: 'AAPL',
@@ -252,13 +221,46 @@
                     net_val: '',
                     gain: '1',
                     gainp: '0.5'
-
-                },
+                    },
                     {
                         id: '2',
-                        name: '',
-                        symbol: '',
+                        name: 'DDEF',
+                        symbol: 'EDO',
                         type: 'Future',
+                        purchase_date: '',
+                        purchase_price: '',
+                        shares: '',
+                        cost: '',
+                        current_price: '',
+                        current_value: '',
+                        total_incom: '',
+                        net_val: '',
+                        gain: '-1',
+                        gainp: '-0.85'
+
+                    },
+                    {
+                        id: '3',
+                        name: 'frfrf',
+                        symbol: 'VNDA',
+                        type: 'Stock',
+                        purchase_date: '',
+                        purchase_price: '',
+                        shares: '',
+                        cost: '',
+                        current_price: '',
+                        current_value: '',
+                        total_incom: '',
+                        net_val: '',
+                        gain: '-1',
+                        gainp: '-0.85'
+
+                    },
+                    {
+                        id: '4',
+                        name: 'dhfud',
+                        symbol: 'NHF',
+                        type: 'ETF',
                         purchase_date: '',
                         purchase_price: '',
                         shares: '',
@@ -274,6 +276,8 @@
                 search: ''
             }
         },
+
+
         methods: {
             cellStyle({row, column, rowIndex, columnIndex}) {
                 if (columnIndex === 0 || columnIndex === 1 || columnIndex === 2 || columnIndex === 3 || columnIndex === 4 || columnIndex === 5 || columnIndex === 6 || columnIndex === 7) { //指定坐标
@@ -312,10 +316,54 @@
                 });
             },
             searchInfo(){
-                const _this = this;
-                console.log(_this.formInline);
+                // console.log(this.formInline.symbol)
+                const search = this.search;
+                if (search) {
 
-            }
+                    // return this.tableData.filter(data => {
+                    //
+                    //     return Object.keys(data).some(key => {
+                    //
+                    //         return String(data[key]).toLowerCase().indexOf(search) > -1
+                    //     })
+                    // })
+                    // return this.tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))
+                }
+                return this.tableData
+
+            },
+            deleteSystem(row){
+                alert(row.id);
+                // const _this=this;
+                // axios.delete('http://localhost:8181/Zonghe/deleteById/'+row.id).then(function (resp) {
+                //     // alert(111)
+                //     _this.$alert('删除成功!', '消息', {
+                //         confirmButtonText: '确定',
+                //         callback: action => {
+                //
+                //         }
+                //
+                //     });
+                //     _this.reload()
+                // })
+            },
+            resetDateFilter() {
+                this.$refs.filterTable.clearFilter('type');
+            },
+            formatter(row, column) {
+                return row.address;
+            },
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
+            },
+            created(){
+                const _this=this
+                axios.get('http://localhost:8181/Danxiang/findByUserid').then(function (resp) {
+                    _this.tableData=resp.data
+
+                })
+            },
 
         }
 

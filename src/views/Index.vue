@@ -15,7 +15,7 @@
             </el-header>
 
             <el-container>
-                <el-aside width="200px">
+                <el-aside width="200px" style="height: 600px">
                     <el-menu :default-openeds="['/']" :default-active="$route.path"
                              router
 
@@ -35,24 +35,7 @@
                         <template slot="title"><i class="el-icon-s-management"></i>Portfolios</template>
                         </el-menu-item>
 
-                        <el-menu-item style="height: 70px">
 
-                        </el-menu-item>
-
-                        <el-menu-item style="height: 70px">
-
-                        </el-menu-item>
-
-                        <el-menu-item style="height: 70px">
-
-                        </el-menu-item>
-
-                        <el-menu-item style="height: 70px">
-
-                        </el-menu-item>
-                        <el-menu-item style="height: 70px">
-
-                        </el-menu-item>
 
                     </el-menu>
                 </el-aside>
