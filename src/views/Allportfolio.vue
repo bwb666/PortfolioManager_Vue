@@ -59,12 +59,14 @@
                                 border
                                 style=""
                                 :header-cell-style="tableHeaderStyle"
-                                :cell-style="cellStyle">
+                                :cell-style="cellStyle"
+                                :summary-method="getSummaries"
+                                show-summary="">
 
                             <el-table-column
                                     prop="id"
                                     label="ID"
-                                    width="60">
+                                    width="70">
                             </el-table-column>
                             <el-table-column
                                     prop="name"
@@ -87,13 +89,13 @@
                             </el-table-column>
 
                             <el-table-column
-                                    prop="purchase_date"
+                                    prop="purchaseDate"
                                     label="Purchase Date"
-                                    width="90">
+                                    width="130">
                             </el-table-column>
 
                             <el-table-column
-                                    prop="purchase_price"
+                                    prop="purchasePrice"
                                     label="Purchase Price"
                                     width="90">
                             </el-table-column>
@@ -109,22 +111,22 @@
                             </el-table-column>
 
                             <el-table-column
-                                    prop="current_price"
+                                    prop="currentPrice"
                                     label="Current Price"
                                     width="80">
                             </el-table-column>
                             <el-table-column
-                                    prop="current_value"
+                                    prop="currentValue"
                                     label="Current Value"
                                     width="80">
                             </el-table-column>
                             <el-table-column
-                                    prop="total_income"
+                                    prop="totalIncome"
                                     label="Total Income"
                                     width="90">
                             </el-table-column>
                             <el-table-column
-                                    prop="net_val"
+                                    prop="netVal"
                                     label="Net Val"
                                     width="90">
                             </el-table-column>
@@ -184,26 +186,10 @@
 <script>
     export default {
         name: "Allportfolio",
+        inject:['reload'],
         data() {
             return {
-                formInline: {
-                    symbol: '',
-                    name: '',
-                    value:''
-                },
-                options: [{
-                    value: '1',
-                    label: 'Bond'
-                }, {
-                    value: '2',
-                    label: 'Stock'
-                }, {
-                    value: '3',
-                    label: 'Future'
-                }, {
-                    value: '4',
-                    label: 'ETF'
-                }],
+
                 value: '',
                 tableData: [
                     {
@@ -211,74 +197,49 @@
                     name: 'apple',
                     symbol: 'AAPL',
                     type: 'Bond',
-                    purchase_date: '',
-                    purchase_price: '',
+                    purchaseDate: '',
+                    purchasePrice: '',
                     shares: '',
                     cost: '',
-                    current_price: '',
-                    current_value: '',
-                    total_incom: '',
-                    net_val: '',
+                    currentPrice: '',
+                    currentValue: '',
+                    totalIncome: '',
+                    netVal: '',
                     gain: '1',
                     gainp: '0.5'
-                    },
-                    {
-                        id: '2',
-                        name: 'DDEF',
-                        symbol: 'EDO',
-                        type: 'Future',
-                        purchase_date: '',
-                        purchase_price: '',
-                        shares: '',
-                        cost: '',
-                        current_price: '',
-                        current_value: '',
-                        total_incom: '',
-                        net_val: '',
-                        gain: '-1',
-                        gainp: '-0.85'
-
-                    },
-                    {
-                        id: '3',
-                        name: 'frfrf',
-                        symbol: 'VNDA',
-                        type: 'Stock',
-                        purchase_date: '',
-                        purchase_price: '',
-                        shares: '',
-                        cost: '',
-                        current_price: '',
-                        current_value: '',
-                        total_incom: '',
-                        net_val: '',
-                        gain: '-1',
-                        gainp: '-0.85'
-
-                    },
-                    {
-                        id: '4',
-                        name: 'dhfud',
-                        symbol: 'NHF',
-                        type: 'ETF',
-                        purchase_date: '',
-                        purchase_price: '',
-                        shares: '',
-                        cost: '',
-                        current_price: '',
-                        current_value: '',
-                        total_incom: '',
-                        net_val: '',
-                        gain: '-1',
-                        gainp: '-0.85'
-
                     }],
                 search: ''
             }
         },
 
-
         methods: {
+            // 房间号的合计去掉
+            getSummaries (param) {
+                const { columns, data } = param
+                const sums = []
+                columns.forEach((column, index) => {
+                    if (index === 0) {
+                        sums[index] = 'TOTAL'
+                    } else if (index === 7 || index === 9|| index === 9|| index === 10|| index === 11|| index === 12|| index === 13) {
+                        const values = data.map(item => Number(item[column.property]))
+                        if (!values.every(value => isNaN(value))) {
+                            sums[index] = values.reduce((prev, curr) => {
+                                const value = Number(curr)
+                                if (!isNaN(value)) {
+                                    return prev + curr
+                                } else {
+                                    return prev
+                                }
+                            }, 0)
+                        } else {
+                            sums[index] = 'N/A'
+                        }
+                    } else {
+                        sums[index] = '--'
+                    }
+                });
+                return sums
+            },
             cellStyle({row, column, rowIndex, columnIndex}) {
                 if (columnIndex === 0 || columnIndex === 1 || columnIndex === 2 || columnIndex === 3 || columnIndex === 4 || columnIndex === 5 || columnIndex === 6 || columnIndex === 7) { //指定坐标
                     return 'background:#E0EBF6; border: 1px solid white;'
@@ -315,23 +276,7 @@
 
                 });
             },
-            searchInfo(){
-                // console.log(this.formInline.symbol)
-                const search = this.search;
-                if (search) {
 
-                    // return this.tableData.filter(data => {
-                    //
-                    //     return Object.keys(data).some(key => {
-                    //
-                    //         return String(data[key]).toLowerCase().indexOf(search) > -1
-                    //     })
-                    // })
-                    // return this.tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))
-                }
-                return this.tableData
-
-            },
             deleteSystem(row){
                 alert(row.id);
                 // const _this=this;
@@ -357,15 +302,35 @@
                 const property = column['property'];
                 return row[property] === value;
             },
-            created(){
-                const _this=this
-                axios.get('http://localhost:8181/Danxiang/findByUserid').then(function (resp) {
-                    _this.tableData=resp.data
 
-                })
-            },
 
-        }
+        },
+        created(){
+            const _this=this
+            axios.get('http://localhost:3000/getAllPortfolio').then(function (resp) {
+                _this.tableData=resp.data
+
+            })
+        },
+        watch: {
+            tableData: {
+                handler: function(newName, oldName) {
+                    this.$nextTick(() => {
+                        // 改变合计行样式
+                        const s_table = document.getElementsByClassName('el-table__footer-wrapper')[0]
+                        // console.log(s_table)
+                        s_table.setAttribute('style', 'border: 1px solid #1A936F')
+                        const child_tr = s_table.getElementsByTagName('tr')[0]
+                        // console.log(child_tr)
+                        child_tr.childNodes.forEach(item => {
+                            item.setAttribute('style', 'border: 1px solid #1A936F')
+                        })
+                    })
+                },
+                immediate: true,
+                deep: true
+            }
+        },
 
 
 

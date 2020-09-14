@@ -91,9 +91,10 @@
                                     :data="tableData1"
                                     border
                                     style="margin-top: 10px"
-                                    :show-header="false"
+                                    :show-header="true"
                                     class="elTable"
-                                    :cell-style="cellStyle">
+                                    :cell-style="cellStyle"
+                                    :header-cell-style="tableHeaderStyle">
 
                                 <el-table-column
                                         prop="name"
@@ -115,9 +116,10 @@
                                     :data="tableData2"
                                     border
                                     style="margin-top: 10px"
-                                    :show-header="false"
+                                    :show-header="true"
                                     class="elTable"
-                                    :cell-style="cellStyle">
+                                    :cell-style="cellStyle"
+                                    :header-cell-style="tableHeaderStyle">
 
                                 <el-table-column
                                         prop="name"
@@ -265,16 +267,26 @@
             this.drawLineChart();
         },
         created() {
-            this.$axios.get("findPatientSex").then((response) => {
-                console.log(response);
-                if (response.data.statusCode == 200) {
-                    this.datas1.length = 0; //清空数组
-                    for (let i = 0; i < response.data.data.length; i++) {
-                        this.datas1.push(response.data.data[i]);
-                        console.log(this.datas1);
-                    }
-                }
+            // this.$axios.get("findPatientSex").then((response) => {
+            //     console.log(response);
+            //     if (response.data.statusCode == 200) {
+            //         this.datas1.length = 0; //清空数组
+            //         for (let i = 0; i < response.data.data.length; i++) {
+            //             this.datas1.push(response.data.data[i]);
+            //             console.log(this.datas1);
+            //         }
+            //     }
+            // });
+            const _this=this
+            axios.get('http://localhost:3000/Top5Gainers').then(function (resp) {
+                _this.tableData1=resp.data
+
             });
+            axios.get('http://localhost:3000/Top5Losers').then(function (resp) {
+                _this.tableData2=resp.data
+
+            })
+
         },
         watch: {
             datas1: {
@@ -423,6 +435,7 @@
 
                 var startDate = _this.formInline.DataSelect[0];
                 var endDate = _this.formInline.DataSelect[1];
+
                 console.log(startDate);
                 console.log(endDate);
 
@@ -433,17 +446,20 @@
                 return 'background-color:#D3D3D3;'
 
             },
-            // tableHeaderStyle({row, column, rowIndex, columnIndex}) {
-            //
-            //         return 'background-color:#284D78;color:#fff;font-size:10px;height:0px'
-            //
-            // },
+            tableHeaderStyle({row, column, rowIndex, columnIndex}) {
+
+                    return 'background-color:#284D78;'
+
+            },
         }
     }
 </script>
 
 <style lang='less'>
 .elTable td{
+    padding: 6px 0!important;
+}
+.elTable th{
     padding: 6px 0!important;
 }
 

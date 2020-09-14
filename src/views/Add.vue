@@ -45,8 +45,8 @@
                 <h1 style="text-align: center">Add a new portfolio</h1>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm" style="width: 500px">
 
-                    <el-form-item label="Type">
-                        <el-select v-model="ruleForm.valuetype" placeholder="请选择" style="width: 400px;text-align: center">
+                    <el-form-item label="Type" prop="valuetype">
+                        <el-select v-model="ruleForm.valuetype" placeholder="请选择" style="width: 400px;text-align: center"  @change="selectExistTypeSymbol">
                             <el-option
                                     v-for="item in options"
                                     :key="item.valuetype"
@@ -56,21 +56,21 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="Symbol">
-                        <el-select v-model="ruleForm.value" placeholder="请选择" style="width: 400px">
+                    <el-form-item label="Symbol" prop="valuesymbol">
+                        <el-select v-model="ruleForm.valuesymbol" placeholder="请选择" style="width: 400px" @change="selectSymbol" >
                             <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
+                                    v-for="item in symbolList"
+                                    :key="item.valuesymbol"
                                     :label="item.label"
-                                    :value="item.value">
+                                    :value="item.valuesymbol">
                             </el-option>
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="Purchase Date" prop="value2">
+                    <el-form-item label="Purchase Date" prop="date" >
 
                         <el-date-picker
-                                v-model="ruleForm.value2"
+                                v-model="ruleForm.date"
                                 align="right"
                                 type="date"
                                 placeholder="选择日期"
@@ -112,23 +112,56 @@
     export default {
         name: "Add",
         data() {
+            var valiNumberPass1 = (rule, value, callback) => {//包含小数的数字
+                let reg = /^[+]?(0|([1-9]\d*))(\.\d+)?$/g;
+                if (value === '') {
+                    callback(new Error('请输入内容'));
+                } else if (!reg.test(value)) {
+                    callback(new Error('请输入大于0的数字'));
+                } else {
+                    callback();
+                }
+            };
+            var valiNumberPass2 = (rule, value, callback) => {//正整数
+                let reg = /^[+]{0,1}(\d+)$/g;
+                if (value === '') {
+                    callback(new Error('请输入内容'));
+                } else if (!reg.test(value)) {
+                    callback(new Error('请输入0及0以上的整数'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 ruleForm:{
                     purchase_price:'',
                     shares:'',
-                    value2: '',
-                    valuetype:''
+                    date: '',
+                    valuetype:'',
+                    valuesymbol:''
 
                 },
                 rules:{
+                    valuetype: [
+                        {required: true, message: '请选择type', trigger: 'change'},
+
+                    ],
+                    valuesymbol: [
+                        {required: true, message: '请选择symbol', trigger: 'change'},
+
+                    ],
+                    date: [
+                        {type: 'string', required: true, message: '请选择日期', trigger: 'change'},
+
+                    ],
                     purchase_price: [
-                        {required: true, message: '不能为空', trigger: 'blur'},
+                        {required: true, validator:valiNumberPass1, trigger: 'blur'},
 
                     ],
                     shares: [
-                        {required: true, message: '不能为空', trigger: 'change'},
+                        {required: true, validator:valiNumberPass2, trigger: 'blur'},
 
-                    ],
+                    ]
                 },
                 options: [{
                     valuetype: 'Bond',
@@ -144,6 +177,10 @@
                     label: 'ETF'
                 }],
                 value: '',
+                symbolList:[{
+                    valuesymbol:'',
+                    label:''
+                }],
                 pickerOptions: {
                     disabledDate(time) {
                         return time.getTime() > Date.now();
@@ -173,33 +210,70 @@
             }
         },
         methods:{
+
             submitForm(formName) {
                 const _this=this;
-                console.log(_this.ruleForm)
-                // this.$refs[formName].validate((valid) => {
-                //     if (valid) {
-                //         axios.post('http://localhost:8181/Zonghe/savesystemInfo',this.ruleForm).then(function (resp) {
-                //             if(resp.data =='success'){
-                //                 _this.$alert('添加成功!', '消息', {
-                //                     confirmButtonText: '确定',
-                //                     callback: action => {
-                //                         // _this.$router.push('/Addportfolio')
-                //                         // _this.reload()
-                //                         // router.go(0)
-                //                     }
-                //
-                //                 });
-                //                 _this.reload()
-                //
-                //             }
-                //         })
-                //
-                //     } else {
-                //         console.log('error submit!!');
-                //         return false;
-                //     }
-                // });
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                        // axios.post('http://localhost:8181/Zonghe/savesystemInfo',this.ruleForm).then(function (resp) {
+                        //     if(resp.status ==200){
+                        //         _this.$alert('添加成功!', '消息', {
+                        //             confirmButtonText: '确定',
+                        //             callback: action => {
+                        //                 _this.$router.push('/Allportfolio')
+                        //
+                        //             }
+                        //
+                        //         });
+                        //
+                        //     }
+                        // })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
             },
+            selectExistTypeSymbol(val){
+                // this.symbolList = [];
+                this.ruleForm.valuesymbol = ''
+                this.getSymbolOfType()
+            },
+            selectSymbol(){
+                this.symbolList = [];
+                this.getSymbolOfType()
+            },
+            getSymbolOfType(){
+                const _this = this;
+                // console.log(_this.ruleForm.valuetype);
+                // alert()
+                axios.get('http://localhost:3000/typeOfsymbol?type='+_this.ruleForm.valuetype).then(function (resp) {
+                    // console.log(resp.data.symbol)
+                    // console.log(resp.status)
+                    if(resp.status === 200){
+                        let arr = [];
+                        resp.data.forEach((resp,index)=>{
+                            // console.log(resp.symbol);
+                            arr[index]={
+
+                                valuesymbol:resp.symbol,
+                                label:resp.symbol,
+                            }
+                        })
+                        _this.symbolList = arr
+                    }
+                    // _this.tableData = resp.data
+                });
+            }
+        },
+        watch:{
+            'symbolList':{
+                handler(newValue,oldValue){
+
+                },
+                deep:true
+            }
         }
     }
 </script>
