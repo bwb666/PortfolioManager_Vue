@@ -174,8 +174,10 @@
                     { value: 12, name: "C" },
 
                 ],
-                datas3:[],
+                datas3:[],//investment
                 datas4:[20, 80, 51, 90, 80, 30, 20],
+                datas5:[50, 130, 132, 130, 140, 80, 70],
+                datas6:[30, 50, 81, 40, 60, 70, 50],
                 tableData1: [{
 
                     name: 'apple',
@@ -268,6 +270,7 @@
                 arr2=Object.values(a);
                 // console.log(arr1.length);
                 // console.log(Object.values(a));
+                console.log(arr2);
 
                 if (response.status == 200) {
                     this.datas3.length = 0; //清空数组
@@ -284,6 +287,44 @@
                     }
                 }
             });
+
+            //netWorth
+            axios.get(_this.apiUrl+'/portfolio/netVal?startDate='+lastweek+'&endDate='+currentdate).then((response) => {
+                const a=response.data;
+                let arr2 = [];
+
+                arr2=Object.values(a);
+                console.log(arr2);
+
+                if (response.status == 200) {
+                    this.datas5.length = 0; //清空数组
+
+                    for (let i = 0; i < arr2.length; i++) {
+                        this.datas5.push(arr2[i]);
+
+                    }
+                }
+            });
+
+            //cash value
+            axios.get(_this.apiUrl+'/portfolio/cashVal?startDate='+lastweek+'&endDate='+currentdate).then((response) => {
+                const a=response.data;
+                let arr2 = [];
+
+                arr2=Object.values(a);
+                console.log(arr2);
+
+                if (response.status == 200) {
+                    this.datas6.length = 0; //清空数组
+
+                    for (let i = 0; i < arr2.length; i++) {
+                        this.datas6.push(arr2[i]);
+
+                    }
+                }
+            });
+
+
 
             //柱状图Gain
             axios.get('http://localhost:3000/Gain').then((response) => {
@@ -349,6 +390,18 @@
                     this.drawLineChart();
                 },
                 deep: true,
+            },
+            datas5:{
+                handler: function () {
+                    this.drawLineChart();
+                },
+                deep: true,
+            },
+            datas6:{
+                handler: function () {
+                    this.drawLineChart();
+                },
+                deep: true,
             }
         },
         methods:{
@@ -382,22 +435,20 @@
                         type: 'value',
                     },
                     series: [{
-                        name: 'investment value',
+                        name: 'Investment Value',
                         type: 'line',
                         data: this.datas4
                     },
-                        // {
-                        //     name:'邮件营销',
-                        //     type:'line',
-                        //     stack: '总量',
-                        //     data:[120, 132, 101, 134, 90, 230, 210]
-                        // },
-                        // {
-                        //     name:'视频广告',
-                        //     type:'line',
-                        //     stack: '总量',
-                        //     data:[150, 232, 201, 154, 190, 330, 410]
-                        // }
+                        {
+                            name:'Net Worth',
+                            type:'line',
+                            data:this.datas5
+                        },
+                        {
+                            name:'Cash Value',
+                            type:'line',
+                            data:this.datas6
+                        }
                         ]
                 };
                 // 使用刚指定的配置项和数据显示图表
@@ -492,6 +543,7 @@
                 console.log(startDate);
                 console.log(endDate);
 
+                //investment
                 axios.get(_this.apiUrl+'/portfolio/investmentVal?startDate='+startDate+'&endDate='+endDate).then(function (resp) {
                     console.log(resp);
                     const a=resp.data;
@@ -516,8 +568,41 @@
                             // console.log(this.datas1[i].type);
                         }
                     }
+                });
 
 
+                //networth
+                axios.get(_this.apiUrl+'/portfolio/netVal?startDate='+startDate+'&endDate='+endDate).then(function (response) {
+                    const a=response.data;
+                    let arr2 = [];
+
+                    arr2=Object.values(a);
+
+                    if (response.status == 200) {
+                        _this.datas5.length = 0; //清空数组
+
+                        for (let i = 0; i < arr2.length; i++) {
+                            _this.datas5.push(arr2[i]);
+
+                        }
+                    }
+                });
+
+                //cash value
+                axios.get(_this.apiUrl+'/portfolio/cashVal?startDate='+startDate+'&endDate='+endDate).then(function (response) {
+                    const a=response.data;
+                    let arr2 = [];
+
+                    arr2=Object.values(a);
+
+                    if (response.status == 200) {
+                        _this.datas6.length = 0; //清空数组
+
+                        for (let i = 0; i < arr2.length; i++) {
+                            _this.datas6.push(arr2[i]);
+
+                        }
+                    }
 
                 })
                 // localhost:8080/portfolio/investmentVal?startDate=2020-09-10&endDate=2020-09-15
