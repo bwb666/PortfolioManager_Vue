@@ -18,7 +18,6 @@
                     { value: 64, name: "男" },
                     { value: 32, name: "女" },
                     { value: 12, name: "未知" },
-                    { value: 45, name: "未" },
                 ],
             };
         },

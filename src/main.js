@@ -7,6 +7,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import echarts from 'echarts'  //引入Echarts，
 Vue.prototype.$echarts = echarts  //定义为全局变量
+import apiUrl from './components/Global.vue'
+Vue.prototype.apiUrl = apiUrl.apiUrl;
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

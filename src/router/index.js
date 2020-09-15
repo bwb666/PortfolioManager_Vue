@@ -10,6 +10,7 @@ import test from '../views/test'
 import echarts from '../views/Echarts'
 import pieChart from '../views/pieChart'
 import zhexian from '../views/zhexian'
+import getTime from '../views/getTime'
 Vue.use(VueRouter)
 
 const routes = [
@@ -58,6 +59,10 @@ const routes = [
     {
         path:'/zhexian',
         component:zhexian
+    },
+    {
+        path:'/gettime',
+        component:getTime
     }
 
 ]

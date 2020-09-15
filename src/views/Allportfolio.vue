@@ -66,7 +66,8 @@
                             <el-table-column
                                     prop="id"
                                     label="ID"
-                                    width="70">
+                                    width="70"
+                                    v-if="show">
                             </el-table-column>
                             <el-table-column
                                     prop="name"
@@ -185,11 +186,12 @@
 
 <script>
     export default {
+
         name: "Allportfolio",
         inject:['reload'],
         data() {
             return {
-
+                show:false,
                 value: '',
                 tableData: [
                     {
@@ -213,14 +215,13 @@
         },
 
         methods: {
-            // 房间号的合计去掉
             getSummaries (param) {
                 const { columns, data } = param
                 const sums = []
                 columns.forEach((column, index) => {
                     if (index === 0) {
                         sums[index] = 'TOTAL'
-                    } else if (index === 7 || index === 9|| index === 9|| index === 10|| index === 11|| index === 12|| index === 13) {
+                    } else if (index === 6 ||index === 8 || index === 9|| index === 9|| index === 10|| index === 11|| index === 12|| index === 13) {
                         const values = data.map(item => Number(item[column.property]))
                         if (!values.every(value => isNaN(value))) {
                             sums[index] = values.reduce((prev, curr) => {
@@ -278,19 +279,19 @@
             },
 
             deleteSystem(row){
-                alert(row.id);
-                // const _this=this;
-                // axios.delete('http://localhost:8181/Zonghe/deleteById/'+row.id).then(function (resp) {
-                //     // alert(111)
-                //     _this.$alert('删除成功!', '消息', {
-                //         confirmButtonText: '确定',
-                //         callback: action => {
-                //
-                //         }
-                //
-                //     });
-                //     _this.reload()
-                // })
+                // alert(row.id);
+                const _this=this;
+                axios.post('http://portfolio-manager-git-portfolio-manager.apps.us-east-2.starter.openshift-online.com/investment/'+row.id).then(function (resp) {
+                   console.log(resp);
+                    _this.$alert('删除成功!', '消息', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+
+                        }
+
+                    });
+                    _this.reload()
+                })
             },
             resetDateFilter() {
                 this.$refs.filterTable.clearFilter('type');
@@ -306,8 +307,12 @@
 
         },
         created(){
-            const _this=this
-            axios.get('http://localhost:3000/getAllPortfolio').then(function (resp) {
+            const _this=this;
+            // console.log(_this.apiUrl);
+
+            axios.get(_this.apiUrl+'/portfolio/all').then(function (resp) {
+                // console.log(resp)
+
                 _this.tableData=resp.data
 
             })

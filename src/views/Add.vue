@@ -40,37 +40,41 @@
             </el-aside>
 
             <el-main >
-                <el-card class="box-card" style="width: 700px;height:500px;text-align: center;margin-left:200px;background: #e2e2e2" >
+                <el-card class="box-card" style="width: 700px;height:550px;text-align: center;margin-left:200px;background: #e2e2e2" >
 
-                <h1 style="text-align: center">Add a new portfolio</h1>
+                <h1 style="text-align: center" >Add A New Investment</h1>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm" style="width: 500px">
 
-                    <el-form-item label="Type" prop="valuetype">
-                        <el-select v-model="ruleForm.valuetype" placeholder="请选择" style="width: 400px;text-align: center"  @change="selectExistTypeSymbol">
+                    <el-form-item label="Type" prop="type">
+                        <el-select v-model="ruleForm.type" placeholder="请选择" style="width: 400px;text-align: center"  @change="selectExistTypeSymbol">
                             <el-option
                                     v-for="item in options"
-                                    :key="item.valuetype"
+                                    :key="item.type"
                                     :label="item.label"
-                                    :value="item.valuetype">
+                                    :value="item.type">
                             </el-option>
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="Symbol" prop="valuesymbol">
-                        <el-select v-model="ruleForm.valuesymbol" placeholder="请选择" style="width: 400px" @change="selectSymbol" >
+                    <el-form-item label="Symbol" prop="symbol">
+                        <el-select v-model="ruleForm.symbol" placeholder="请选择" style="width: 400px" @change="selectSymbol" >
                             <el-option
                                     v-for="item in symbolList"
-                                    :key="item.valuesymbol"
+                                    :key="item.symbol"
                                     :label="item.label"
-                                    :value="item.valuesymbol">
+                                    :value="item.symbol">
                             </el-option>
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="Purchase Date" prop="date" >
+                    <el-form-item label="Name" prop="name" >
+                        <el-input v-model="ruleForm.name" readOnly style="width: 400px"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="Purchase Date" prop="purchasedDate" >
 
                         <el-date-picker
-                                v-model="ruleForm.date"
+                                v-model="ruleForm.purchasedDate"
                                 align="right"
                                 type="date"
                                 placeholder="选择日期"
@@ -82,11 +86,11 @@
 
                     </el-form-item>
 
-                    <el-form-item label="Purchase Price" prop="purchase_price" >
-                        <el-input v-model="ruleForm.purchase_price" style="width: 400px"></el-input>
+                    <el-form-item label="Purchase Price" prop="purchasedPrice" >
+                        <el-input v-model="ruleForm.purchasedPrice" style="width: 400px"></el-input>
                     </el-form-item>
-                    <el-form-item label="Shares" prop="shares" >
-                        <el-input  v-model="ruleForm.shares" autocomplete="off" style="width: 400px"></el-input>
+                    <el-form-item label="Shares" prop="share" >
+                        <el-input  v-model="ruleForm.share" autocomplete="off" style="width: 400px"></el-input>
                     </el-form-item>
 
                     <el-form-item>
@@ -123,62 +127,67 @@
                 }
             };
             var valiNumberPass2 = (rule, value, callback) => {//正整数
-                let reg = /^[+]{0,1}(\d+)$/g;
+                let reg = /^[1-9]\d*$/g;
                 if (value === '') {
                     callback(new Error('请输入内容'));
                 } else if (!reg.test(value)) {
-                    callback(new Error('请输入0及0以上的整数'));
+                    callback(new Error('请输入0以上的整数'));
                 } else {
                     callback();
                 }
             };
+            let arr1 = [];
+            let arr2 = [];
             return {
                 ruleForm:{
-                    purchase_price:'',
-                    shares:'',
-                    date: '',
-                    valuetype:'',
-                    valuesymbol:''
+                    purchasedPrice:'',
+                    share:'',
+                    purchasedDate: '',
+                    type:'',
+                    symbol:'',
+                    name:''
 
                 },
                 rules:{
-                    valuetype: [
+                    type: [
                         {required: true, message: '请选择type', trigger: 'change'},
 
                     ],
-                    valuesymbol: [
+                    symbol: [
                         {required: true, message: '请选择symbol', trigger: 'change'},
 
                     ],
-                    date: [
+                    purchasedDate: [
                         {type: 'string', required: true, message: '请选择日期', trigger: 'change'},
 
                     ],
-                    purchase_price: [
+                    purchasedPrice: [
                         {required: true, validator:valiNumberPass1, trigger: 'blur'},
 
                     ],
-                    shares: [
+                    share: [
                         {required: true, validator:valiNumberPass2, trigger: 'blur'},
 
                     ]
                 },
-                options: [{
-                    valuetype: 'Bond',
-                    label: 'Bond'
-                }, {
-                    valuetype: 'Stock',
-                    label: 'Stock'
-                }, {
-                    valuetype: 'Future',
-                    label: 'Future'
-                }, {
-                    valuetype: 'ETF',
-                    label: 'ETF'
-                }],
+                options: [
+                    {
+                        type: 'BOND',
+                        label: 'BOND'
+                    }, {
+                        type: 'STOCK',
+                        label: 'STOCK'
+                    }, {
+                        type: 'FUTURE',
+                        label: 'FUTURE'
+                    }, {
+                        type: 'ETF',
+                        label: 'ETF'
+                    }
+                ],
                 value: '',
                 symbolList:[{
-                    valuesymbol:'',
+                    symbol:'',
                     label:''
                 }],
                 pickerOptions: {
@@ -215,20 +224,21 @@
                 const _this=this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
-                        // axios.post('http://localhost:8181/Zonghe/savesystemInfo',this.ruleForm).then(function (resp) {
-                        //     if(resp.status ==200){
-                        //         _this.$alert('添加成功!', '消息', {
-                        //             confirmButtonText: '确定',
-                        //             callback: action => {
-                        //                 _this.$router.push('/Allportfolio')
-                        //
-                        //             }
-                        //
-                        //         });
-                        //
-                        //     }
-                        // })
+                        // alert('submit!');
+                        console.log(_this.ruleForm)
+                        axios.post(_this.apiUrl+'/investment',_this.ruleForm).then(function (resp) {
+                            if(resp.status ==200){
+                                _this.$alert('添加成功!', '消息', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        _this.$router.push('/Allportfolio')
+
+                                    }
+
+                                });
+
+                            }
+                        })
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -236,35 +246,79 @@
                 });
             },
             selectExistTypeSymbol(val){
+                // console.log(val)
                 // this.symbolList = [];
-                this.ruleForm.valuesymbol = ''
+                this.ruleForm.symbol = ''
                 this.getSymbolOfType()
             },
-            selectSymbol(){
+            selectSymbol(val){
+                // console.log(val)
                 this.symbolList = [];
-                this.getSymbolOfType()
+                this.getSymbolOfType();
+                this.fillName(val)
             },
             getSymbolOfType(){
                 const _this = this;
-                // console.log(_this.ruleForm.valuetype);
+                // console.log(_this.ruleForm.type);
                 // alert()
-                axios.get('http://localhost:3000/typeOfsymbol?type='+_this.ruleForm.valuetype).then(function (resp) {
-                    // console.log(resp.data.symbol)
-                    // console.log(resp.status)
+                // axios.get('http://localhost:3000/typeOfsymbol?type='+_this.ruleForm.type).then(function (resp) {
+                //     // console.log(resp.data.symbol)
+                //     // console.log(resp.status)
+                //     if(resp.status === 200){
+                //         let arr = [];
+                //         resp.data.forEach((resp,index)=>{
+                //             // console.log(resp.symbol);
+                //             arr[index]={
+                //
+                //                 symbol:resp.symbol,
+                //                 label:resp.symbol,
+                //             }
+                //         })
+                //         _this.symbolList = arr
+                //     }
+                //     // _this.tableData = resp.data
+                // });
+                axios.get(_this.apiUrl+'/product/'+_this.ruleForm.type).then(function (resp) {
+                    console.log(resp);
+                    const a=resp.data;
+                    // let arr1 = [];
+                    // let arr2 = [];
+                    _this.arr1=Object.keys(a);
+                    _this.arr2=Object.values(a);
+                    // console.log(_this.arr1);
+                    // console.log(_this.arr2);
+
                     if(resp.status === 200){
                         let arr = [];
-                        resp.data.forEach((resp,index)=>{
-                            // console.log(resp.symbol);
-                            arr[index]={
+                        for (let i = 0; i < _this.arr1.length; i++) {
+                            arr[i]={
 
-                                valuesymbol:resp.symbol,
-                                label:resp.symbol,
+                                symbol:_this.arr1[i],
+                                label:_this.arr1[i],
                             }
-                        })
+
+                        }
                         _this.symbolList = arr
                     }
                     // _this.tableData = resp.data
                 });
+            },
+            fillName(val){
+                console.log(val);
+                let strName;
+                let num;
+                strName = val;
+                for (let i = 0; i < this.arr1.length; i++) {
+                    if(strName==this.arr1[i]){
+                         num = i;
+                         break;
+                    }
+
+                }
+                console.log(this.arr2[num])
+                this.ruleForm.name=this.arr2[num];
+
+
             }
         },
         watch:{

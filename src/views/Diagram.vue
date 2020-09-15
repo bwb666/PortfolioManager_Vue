@@ -158,6 +158,9 @@
         data() {
             return {
                 msg: "扇形图",
+                list:[],
+                date:[],
+                value:[],
                 datas1: [
                     { value: 64, name: "男" },
                     { value: 32, name: "女" },
@@ -170,64 +173,20 @@
                     { value: 12, name: "C" },
 
                 ],
+                datas3:['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                datas4:[20, 80, 51, 90, 80, 30, 20],
                 tableData1: [{
 
                     name: 'apple',
                     gainp: '0.5'
 
-                },
-                    {
-
-                        name: 'ye6e',
-                        gainp: '0.85'
-
-                    },{
-
-                        name: 'ye6e',
-                        gainp: '0.85'
-
-                    },
-                    {
-
-                        name: 'ye6e',
-                        gainp: '0.85'
-
-                    },
-                    {
-
-                        name: 'ye6e',
-                        gainp: '0.85'
-
-                    }],
+                }],
                 tableData2: [{
 
                     name: 'apple',
                     gainp: '-0.5'
 
-                },
-                    {
-
-                        name: 'ye6e',
-                        gainp: '-0.85'
-
-                    },{
-
-                        name: 'ye6e',
-                        gainp: '-0.85'
-
-                    },
-                    {
-
-                        name: 'ye6e',
-                        gainp: '-0.85'
-
-                    },
-                    {
-
-                        name: 'ye6e',
-                        gainp: '-0.85'
-
-                    }],
+                }],
                 formInline: {
                     DataSelect:''
                 },
@@ -267,21 +226,98 @@
             this.drawLineChart();
         },
         created() {
-            // this.$axios.get("findPatientSex").then((response) => {
-            //     console.log(response);
-            //     if (response.data.statusCode == 200) {
-            //         this.datas1.length = 0; //清空数组
-            //         for (let i = 0; i < response.data.data.length; i++) {
-            //             this.datas1.push(response.data.data[i]);
-            //             console.log(this.datas1);
-            //         }
-            //     }
-            // });
-            const _this=this
+
+            const _this=this;
+            //获取当前日期和前七天日期
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            var seperator1 = "-";
+            var year1 = start.getFullYear();
+            var month1 = start.getMonth() + 1;
+            var strDate1 = start.getDate();
+            if (month1 >= 1 && month1 <= 9) {
+                month1 = "0" + month1;
+            }
+            if (strDate1 >= 0 && strDate1 <= 9) {
+                strDate1 = "0" + strDate1;
+            }
+
+            var year2 = end.getFullYear();
+            var month2 = end.getMonth() + 1;
+            var strDate2 = end.getDate();
+            if (month2 >= 1 && month2 <= 9) {
+                month2 = "0" + month2;
+            }
+            if (strDate2 >= 0 && strDate2 <= 9) {
+                strDate2 = "0" + strDate2;
+            }
+            var lastweek = year1 + seperator1 + month1 + seperator1 + strDate1;
+            var currentdate = year2 + seperator1 + month2 + seperator1 + strDate2;
+            console.log(lastweek);
+            console.log(currentdate);
+            //获取结束
+            console.log(_this.apiUrl);
+            //折线图默认显示前一周
+            axios.get(_this.apiUrl+'/portfolio/investmentVal?startDate='+lastweek+'&endDate='+currentdate).then((response) => {
+                const a=response.data;
+                let arr1 = [];
+                let arr2 = [];
+                arr1=Object.keys(a);
+                arr2=Object.values(a);
+                // console.log(arr1.length);
+                // console.log(Object.values(a));
+
+                if (response.status == 200) {
+                    this.datas3.length = 0; //清空数组
+                    this.datas4.length = 0; //清空数组
+                    for (let i = 0; i < arr1.length; i++) {
+                        this.datas3.push(arr1[i]);
+                        // console.log(this.datas3);
+                        // console.log(this.datas1[i].type);
+                    }
+                    for (let i = 0; i < arr2.length; i++) {
+                        this.datas4.push(arr2[i]);
+                        // console.log(this.datas4);
+                        // console.log(this.datas1[i].type);
+                    }
+                }
+            });
+
+            //柱状图Gain
+            axios.get('http://localhost:3000/Gain').then((response) => {
+                // console.log(response);
+                // console.log(response.data.length);
+                if (response.status == 200) {
+                    _this.datas1.length = 0; //清空数组
+                    for (let i = 0; i < response.data.length; i++) {
+                        _this.datas1.push(response.data[i]);
+                        // console.log(this.datas1);
+                        // console.log(this.datas1[i].type);
+                    }
+                }
+            });
+
+            //柱状图Lose
+            axios.get('http://localhost:3000/Lose').then((response) => {
+                // console.log(response);
+                // console.log(response.data.length);
+                if (response.status == 200) {
+                    _this.datas2.length = 0; //清空数组
+                    for (let i = 0; i < response.data.length; i++) {
+                        _this.datas2.push(response.data[i]);
+                        // console.log(this.datas2);
+                        // console.log(this.datas1[i].type);
+                    }
+                }
+            });
+            //TOP5 Gainer
             axios.get('http://localhost:3000/Top5Gainers').then(function (resp) {
                 _this.tableData1=resp.data
 
             });
+
+            //TOP5 Loser
             axios.get('http://localhost:3000/Top5Losers').then(function (resp) {
                 _this.tableData2=resp.data
 
@@ -291,16 +327,28 @@
         watch: {
             datas1: {
                 handler: function () {
-                    this.drawLine();
+                    this.drawLine1();
                 },
                 deep: true,
             },
             datas2: {
                 handler: function () {
-                    this.drawLine();
+                    this.drawLine2();
                 },
                 deep: true,
             },
+            datas3:{
+                handler: function () {
+                    this.drawLineChart();
+                },
+                deep: true,
+            },
+            datas4:{
+                handler: function () {
+                    this.drawLineChart();
+                },
+                deep: true,
+            }
         },
         methods:{
             drawLineChart() {
@@ -310,7 +358,7 @@
                     color: ["#37A2DA","#FFDB5C", "#ff9f7f"],
 
                     title: {
-                        text: "XXX",
+                        text: "Asset Changes",
                         left: "center",
                     },
                     grid: {
@@ -326,29 +374,30 @@
                     xAxis: {
                         type: 'category',
                         boundaryGap: false,
-                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                        data: this.datas3
                     },
                     yAxis: {
                         x: 'center',
                         type: 'value',
                     },
                     series: [{
-                        name: '销量',
+                        name: 'investment value',
                         type: 'line',
-                        data: [20, 80, 51, 90, 80, 30, 20]
+                        data: this.datas4
                     },
-                        {
-                            name:'邮件营销',
-                            type:'line',
-                            stack: '总量',
-                            data:[120, 132, 101, 134, 90, 230, 210]
-                        },
-                        {
-                            name:'视频广告',
-                            type:'line',
-                            stack: '总量',
-                            data:[150, 232, 201, 154, 190, 330, 410]
-                        }]
+                        // {
+                        //     name:'邮件营销',
+                        //     type:'line',
+                        //     stack: '总量',
+                        //     data:[120, 132, 101, 134, 90, 230, 210]
+                        // },
+                        // {
+                        //     name:'视频广告',
+                        //     type:'line',
+                        //     stack: '总量',
+                        //     data:[150, 232, 201, 154, 190, 330, 410]
+                        // }
+                        ]
                 };
                 // 使用刚指定的配置项和数据显示图表
                 myLineChart.setOption(option);
@@ -358,6 +407,7 @@
                 let myChart = this.$echarts.init(document.getElementById("myChart1"));
                 //2、构造图表数据
                 let options = {
+                    color: ["#9FE6B8","#37A2DA", "#FFDB5C", "#fb7293"],
                     title: {
                         text: "Gain",
                         left: "center",
@@ -369,11 +419,11 @@
                     legend: {
                         orient: "vertical",
                         left: "left",
-                        data: ["男", "女", "未知",],
+                        data: this.datas1,
                     },
                     series: [
                         {
-                            name: "访问来源",
+                            name: "Type",
                             type: "pie",
                             radius: "55%",
                             center: ["50%", "60%"],
@@ -396,6 +446,8 @@
                 let myChart = this.$echarts.init(document.getElementById("myChart2"));
                 //2、构造图表数据
                 let options = {
+
+
                     title: {
                         text: "Lose",
                         left: "center",
@@ -407,11 +459,11 @@
                     legend: {
                         orient: "vertical",
                         left: "left",
-                        data: ["A", "B", "C",],
+                        data: this.datas2,
                     },
                     series: [
                         {
-                            name: "访问来源",
+                            name: "Type",
                             type: "pie",
                             radius: "55%",
                             center: ["50%", "60%"],
@@ -431,13 +483,43 @@
             },
             showDiagram(){
                 const _this=this;
-                console.log(_this.formInline);
+                // console.log(_this.formInline);
 
                 var startDate = _this.formInline.DataSelect[0];
                 var endDate = _this.formInline.DataSelect[1];
 
                 console.log(startDate);
                 console.log(endDate);
+
+                axios.get(_this.apiUrl+'/portfolio/investmentVal?startDate='+startDate+'&endDate='+endDate).then(function (resp) {
+                    console.log(resp);
+                    const a=resp.data;
+                    let arr1 = [];
+                    let arr2 = [];
+                    arr1=Object.keys(a);
+                    arr2=Object.values(a);
+                    // console.log(arr1.length);
+                    // console.log(Object.values(a));
+
+                    if (resp.status == 200) {
+                        _this.datas3.length = 0; //清空数组
+                        _this.datas4.length = 0; //清空数组
+                        for (let i = 0; i < arr1.length; i++) {
+                            _this.datas3.push(arr1[i]);
+                            // console.log(this.datas3);
+                            // console.log(this.datas1[i].type);
+                        }
+                        for (let i = 0; i < arr2.length; i++) {
+                            _this.datas4.push(arr2[i]);
+                            // console.log(this.datas4);
+                            // console.log(this.datas1[i].type);
+                        }
+                    }
+
+
+
+                })
+                // localhost:8080/portfolio/investmentVal?startDate=2020-09-10&endDate=2020-09-15
 
 
 
