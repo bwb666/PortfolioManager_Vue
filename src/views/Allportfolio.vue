@@ -85,7 +85,7 @@
                                     label="Type"
                                     width="70"
                                     column-key="type"
-                                    :filters="[{text: 'Bond', value: 'Bond'}, {text: 'Stock', value: 'Stock'}, {text: 'Future', value: 'Future'}, {text: 'ETF', value: 'ETF'}]"
+                                    :filters="[{text: 'BOND', value: 'BOND'}, {text: 'STOCK', value: 'STOCK'}, {text: 'FUTURE', value: 'FUTURE'}, {text: 'ETF', value: 'ETF'}]"
                                     :filter-method="filterHandler">
                             </el-table-column>
 
@@ -108,7 +108,7 @@
                             <el-table-column
                                     prop="cost"
                                     label="Cost"
-                                    width="90">
+                                    width="120">
                             </el-table-column>
 
                             <el-table-column
@@ -148,6 +148,10 @@
                                     <span v-if="scope.row.gainp<0" style="color:red">{{ scope.row.gainp }}</span>
                                     <span v-else style="color:#606266">{{ scope.row.gainp }}</span>
                                 </template>
+
+
+
+
                             </el-table-column>
 
                             <el-table-column
@@ -155,16 +159,19 @@
                                     label="operating">
 
                                 <template slot-scope="scope">
+                                    <template >
+                                        <el-button slot="reference" size="mini" type="danger" @click="open2(scope.row)">delete</el-button>
+                                    </template>
 
 
-                                    <el-popconfirm
-                                            title="确认删除该项吗？"
+                                    <!--<el-popconfirm-->
+                                            <!--title="Are you sure to delete this item?"-->
 
-                                            @onConfirm="deleteSystem(scope.row)"
-                                    >
-                                        <el-button slot="reference" size="mini"
-                                                   type="danger">delete</el-button>
-                                    </el-popconfirm>
+                                            <!--@onConfirm="deleteSystem(scope.row)"-->
+                                    <!--&gt;-->
+                                        <!--<el-button slot="reference" size="mini"-->
+                                                   <!--type="danger">delete</el-button>-->
+                                    <!--</el-popconfirm>-->
 
 
                                 </template>
@@ -215,6 +222,25 @@
         },
 
         methods: {
+            open2(row) {
+                this.$confirm('This will permanently delete the item. Continue?', 'Warning', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteItem(row);
+                    // alert(row.id);
+                    // this.$message({
+                    //     type: 'success',
+                    //     message: 'Delete completed'
+                    // });
+                }).catch(() => {
+                    // this.$message({
+                    //     type: 'info',
+                    //     message: 'Delete canceled'
+                    // });
+                });
+            },
             getSummaries (param) {
                 const { columns, data } = param
                 const sums = []
@@ -278,13 +304,14 @@
                 });
             },
 
-            deleteSystem(row){
+            deleteItem(row){
                 // alert(row.id);
                 const _this=this;
                 axios.post('http://portfolio-manager-git-portfolio-manager.apps.us-east-2.starter.openshift-online.com/investment/'+row.id).then(function (resp) {
                    console.log(resp);
-                    _this.$alert('删除成功!', '消息', {
-                        confirmButtonText: '确定',
+                    _this.$alert('Delete completed!', 'Success', {
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Cancel',
                         callback: action => {
 
                         }

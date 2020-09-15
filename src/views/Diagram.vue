@@ -15,7 +15,7 @@
             </el-header>
 
             <el-container>
-                <el-aside width="200px" style="height: 600px">
+                <el-aside width="200px" style="height: 700px">
                     <el-menu :default-openeds="['/Diagram']" :default-active="$route.path"
                              router
 
@@ -49,9 +49,9 @@
                                             type="daterange"
                                             align="right"
                                             unlink-panels
-                                            range-separator="至"
-                                            start-placeholder="开始日期"
-                                            end-placeholder="结束日期"
+                                            range-separator="to"
+                                            start-placeholder="Start Date"
+                                            end-placeholder="End Date"
                                             :picker-options="pickerOptions"
                                             format="yyyy-MM-dd"
                                             value-format="yyyy-MM-dd">
@@ -69,13 +69,12 @@
                                     <div
                                             class="HelloWorld echart-box"
                                             id="myChart1"
-                                            :style="{width: '450px', height: '300px',background:'#ffffff'}"
+                                            style="width:500px; height:300px;background:#ffffff;margin-top:20px"
                                     ></div>
                                 </div></el-col>
                                 <el-col :span="12"><div class="grid-content bg-purple-light">
 
-                                    <div id="myChart2"
-                                         :style="{width: '500px', height: '300px',background:'#ffffff'}"
+                                    <div id="myChart2" style="width:500px; height:300px;background:#ffffff;margin-top:20px"
                                     ></div>
 
 
@@ -86,11 +85,11 @@
                         </div></el-col>
 
                         <el-col :span="6"><div class="grid-content bg-purple-light" style="text-align: center">
-                            <div>YOUR GAINERS</div>
+                            <div style="padding-bottom: 5px">YOUR GAINERS</div>
                             <el-table
                                     :data="tableData1"
                                     border
-                                    style="margin-top: 10px"
+                                    style="margin-top: 11px"
                                     :show-header="true"
                                     class="elTable"
                                     :cell-style="cellStyle"
@@ -99,7 +98,8 @@
                                 <el-table-column
                                         prop="name"
                                         label="Name"
-                                style="height: min-content">
+                                        width="180px"
+                                style="height: min-content;">
                                 </el-table-column>
                                 <el-table-column
                                         prop="gainp"
@@ -111,7 +111,7 @@
                                 </el-table-column>
                             </el-table>
                             <el-divider></el-divider>
-                            <div>YOUR LOSERS</div>
+                            <div style="padding-bottom: 5px;padding-top: 15px">YOUR LOSERS</div>
                             <el-table
                                     :data="tableData2"
                                     border
@@ -124,6 +124,7 @@
                                 <el-table-column
                                         prop="name"
                                         label="Name"
+                                        width="180px"
                                         style="height: min-content">
                                 </el-table-column>
                                 <el-table-column
@@ -173,7 +174,7 @@
                     { value: 12, name: "C" },
 
                 ],
-                datas3:['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                datas3:[],
                 datas4:[20, 80, 51, 90, 80, 30, 20],
                 tableData1: [{
 
@@ -539,7 +540,7 @@
 
 <style lang='less'>
 .elTable td{
-    padding: 6px 0!important;
+    padding: 10px 0!important;
 }
 .elTable th{
     padding: 6px 0!important;

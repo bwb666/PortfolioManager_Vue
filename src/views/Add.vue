@@ -46,7 +46,7 @@
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm" style="width: 500px">
 
                     <el-form-item label="Type" prop="type">
-                        <el-select v-model="ruleForm.type" placeholder="请选择" style="width: 400px;text-align: center"  @change="selectExistTypeSymbol">
+                        <el-select v-model="ruleForm.type" placeholder="Select Type" style="width: 400px;text-align: center"  @change="selectExistTypeSymbol">
                             <el-option
                                     v-for="item in options"
                                     :key="item.type"
@@ -57,7 +57,7 @@
                     </el-form-item>
 
                     <el-form-item label="Symbol" prop="symbol">
-                        <el-select v-model="ruleForm.symbol" placeholder="请选择" style="width: 400px" @change="selectSymbol" >
+                        <el-select v-model="ruleForm.symbol" placeholder="Select Symbol" style="width: 400px" @change="selectSymbol" >
                             <el-option
                                     v-for="item in symbolList"
                                     :key="item.symbol"
@@ -77,7 +77,7 @@
                                 v-model="ruleForm.purchasedDate"
                                 align="right"
                                 type="date"
-                                placeholder="选择日期"
+                                placeholder="Select Date"
                                 :picker-options="pickerOptions"
                                 style="width: 400px"
                                 format="yyyy-MM-dd"
@@ -119,9 +119,9 @@
             var valiNumberPass1 = (rule, value, callback) => {//包含小数的数字
                 let reg = /^[+]?(0|([1-9]\d*))(\.\d+)?$/g;
                 if (value === '') {
-                    callback(new Error('请输入内容'));
+                    callback(new Error('Purchase Price cannot be empty!'));
                 } else if (!reg.test(value)) {
-                    callback(new Error('请输入大于0的数字'));
+                    callback(new Error('Please enter a number greater than 0!'));
                 } else {
                     callback();
                 }
@@ -129,9 +129,9 @@
             var valiNumberPass2 = (rule, value, callback) => {//正整数
                 let reg = /^[1-9]\d*$/g;
                 if (value === '') {
-                    callback(new Error('请输入内容'));
+                    callback(new Error('Shares cannot be empty!'));
                 } else if (!reg.test(value)) {
-                    callback(new Error('请输入0以上的整数'));
+                    callback(new Error('Please enter an integer above 0!'));
                 } else {
                     callback();
                 }
@@ -150,15 +150,15 @@
                 },
                 rules:{
                     type: [
-                        {required: true, message: '请选择type', trigger: 'change'},
+                        {required: true, message: 'Please choose the type!', trigger: 'change'},
 
                     ],
                     symbol: [
-                        {required: true, message: '请选择symbol', trigger: 'change'},
+                        {required: true, message: 'Please choose the symbol!', trigger: 'change'},
 
                     ],
                     purchasedDate: [
-                        {type: 'string', required: true, message: '请选择日期', trigger: 'change'},
+                        {type: 'string', required: true, message: 'Please choose the date!', trigger: 'change'},
 
                     ],
                     purchasedPrice: [
@@ -228,8 +228,9 @@
                         console.log(_this.ruleForm)
                         axios.post(_this.apiUrl+'/investment',_this.ruleForm).then(function (resp) {
                             if(resp.status ==200){
-                                _this.$alert('添加成功!', '消息', {
-                                    confirmButtonText: '确定',
+                                _this.$alert('Add completed!', 'Success', {
+                                    confirmButtonText: 'OK',
+                                    cancelButtonText: 'Cancel',
                                     callback: action => {
                                         _this.$router.push('/Allportfolio')
 
