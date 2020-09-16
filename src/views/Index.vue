@@ -43,43 +43,43 @@
                                 <el-card style="width:32%;margin-bottom:20px;background:#FFBB66;height:200px;" shadow="hover" body-style="display:flex;padding:0">
                                     <i class="el-icon-success" style="font-size: 50px;width:80px;height:80px;text-align: center;padding:20px;line-height:120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left:15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom:10px;color:#f9fafc">{{card[0]}}</p>
+                                        <p class="money" style="font-size: 30px;margin-bottom:10px;color:#f9fafc">$78754.5</p>
                                         <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">CashValue</p>
                                     </div>
                                 </el-card>
                                 <el-card style="width:32%;margin-bottom: 20px;background:#409EFF;height:200px;" shadow="hover" body-style="display:flex;padding:0">
                                     <i class="el-icon-platform-eleme" style="font-size:50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">{{card[1]}}</p>
-                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">CashValue</p>
+                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">$1202630.4</p>
+                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">InvestmentValue</p>
                                     </div>
                                 </el-card>
                                 <el-card style="width:32%;margin-bottom: 20px;background:#F56C6C;height:200px;" shadow="hover" body-style="display:flex;padding:0">
                                     <i class="el-icon-user" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">{{card[2]}}</p>
-                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">CashValue</p>
+                                        <p class="money" style="font-size: 30px;margin-bottom:10px;color:#f9fafc">shares:2</p>
+                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">Bond</p>
                                     </div>
                                 </el-card>
                                 <el-card style="width:32%;background:#F08080;height:200px;" shadow="hover" body-style="display:flex;padding:0">
-                                    <i class="el-icon-success" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
+                                    <i class="el-icon-chat-dot-square" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">{{card[3]}}</p>
-                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">CashValue</p>
+                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">shares:5</p>
+                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">Stocks</p>
                                     </div>
                                 </el-card>
                                 <el-card style="width:32%;background:#FFC0CB;height:200px;" shadow="hover" body-style="display:flex;padding:0">
-                                    <i class="el-icon-success" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
+                                    <i class="el-icon-news" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">{{card[4]}}</p>
-                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">CashValue</p>
+                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">shares:1</p>
+                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">Futures</p>
                                     </div>
                                 </el-card>
                                 <el-card style="width:32%;background:#67C23A;height:200px;" shadow="hover" body-style="display:flex;padding:0">
-                                    <i class="el-icon-success" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
+                                    <i class="el-icon-s-data" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">{{card[5]}}</p>
-                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">CashValue</p>
+                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">shares:3</p>
+                                        <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">ETFs</p>
                                     </div>
                                 </el-card>
                             </div>
@@ -112,8 +112,8 @@
                 xkey:[],
                 yvalue:[],
                 datas1: [
-                    { name: "CashValue",value: 64},
-                    { name: "InvestmentValue",value: 32 },
+                    //   { name: "CashValue",value: 64},
+                    //   { name: "InvestmentValue",value: 32 },
                 ],
             }
         },
@@ -184,7 +184,7 @@
                 let options = {
                     color: ["#9FE6B8", "#37A2DA", "#FFDB5C", "#fb7293"],
                     title: {
-                        text: "NetWorth",
+                        text: "wealth",
                         left: "center",
                     },
                     tooltip: {
@@ -201,7 +201,7 @@
                             name: "Type",
                             type: "pie",
                             radius: "55%",
-                            center: ["60%", "50%"],
+                            center: ["60%", "60%"],
                             data: this.datas1,
                             emphasis: {
                                 itemStyle: {
@@ -219,10 +219,9 @@
         },
         created() {
             const _this = this;
-            _this.apiUrl =' http://portfolio-manager-git-portfolio-manager.apps.us-east-2.starter.openshift-online.com'
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
             let seperator1 = "-";
             let year1 = start.getFullYear();
             let month1 = start.getMonth() + 1;
@@ -247,7 +246,7 @@
             let currentdate = year2 + seperator1 + month2 + seperator1 + strDate2;
             //   console.log(lastweek);
             //  console.log(currentdate);
-//获取结束
+            //获取结束
             // console.log(_this.apiUrl);
             _this.axios.get('http://localhost:3000/countData').then(function(resp){
                 _this.card = resp.data //表示的最上面彩色块块的值
@@ -262,14 +261,12 @@
 
             });
 
-            let pie_date='2020-09-12'
-            //console.log(pie_date)
-            /*  _this.axios.get(_this.apiUrl+'/portfolio/investmentVal?startDate='+pie_date+'&endDate='+pie_date).then(function(resp){
+            _this.axios.get(_this.apiUrl+'/portfolio/cashAndInvestmentVal').then(function(resp){
                 _this.Order_pie = resp.data //表示的最上面彩色块块的值
-                 console.log(resp.data)
-                 _this.datas1=_this.Order_pie
-                 console.log(_this.datas1)
-               });*/
+                console.log(resp.data)
+                _this.datas1=_this.Order_pie
+                console.log(_this.datas1)
+            });
         },
         watch:{
             datas1: {

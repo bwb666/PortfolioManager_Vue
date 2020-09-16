@@ -15,7 +15,7 @@
             </el-header>
 
             <el-container>
-                <el-aside width="200px" style="height: 600px">
+                <el-aside width="200px" style="height: 700px">
                     <el-menu :default-openeds="['/Allportfolio']" :default-active="$route.path"
                              router
 
@@ -55,7 +55,7 @@
                         <el-table
                                 ref="filterTable"
                                 :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()) || data.symbol.toLowerCase().includes(search.toLowerCase()))"
-                                height="480"
+                                height="600"
                                 border
                                 style=""
                                 :header-cell-style="tableHeaderStyle"
@@ -83,7 +83,7 @@
                             <el-table-column
                                     prop="type"
                                     label="Type"
-                                    width="70"
+                                    width="80"
                                     column-key="type"
                                     :filters="[{text: 'BOND', value: 'BOND'}, {text: 'STOCK', value: 'STOCK'}, {text: 'FUTURE', value: 'FUTURE'}, {text: 'ETF', value: 'ETF'}]"
                                     :filter-method="filterHandler">
@@ -99,6 +99,9 @@
                                     prop="purchasePrice"
                                     label="Purchase Price"
                                     width="90">
+                                <template scope="scope">
+                                    {{parseFloat(scope.row.purchasePrice).toFixed(2) }}
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     prop="shares"
@@ -109,35 +112,50 @@
                                     prop="cost"
                                     label="Cost"
                                     width="120">
+                                <template scope="scope">
+                                    {{parseFloat(scope.row.cost).toFixed(2) }}
+                                </template>
                             </el-table-column>
 
                             <el-table-column
                                     prop="currentPrice"
                                     label="Current Price"
                                     width="80">
+                                <template scope="scope">
+                                    {{parseFloat(scope.row.currentPrice).toFixed(2) }}
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     prop="currentValue"
                                     label="Current Value"
-                                    width="80">
+                                    width="100">
+                                <template scope="scope">
+                                    {{parseFloat(scope.row.currentValue).toFixed(2) }}
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     prop="totalIncome"
                                     label="Total Income"
-                                    width="90">
+                                    width="100">
+                                <template scope="scope">
+                                    {{parseFloat(scope.row.totalIncome).toFixed(2) }}
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     prop="netVal"
                                     label="Net Val"
                                     width="90">
+                                <template scope="scope">
+                                    {{parseFloat(scope.row.netVal).toFixed(2) }}
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     prop="gain"
                                     label="Gain($)"
                                     width="90">
                                 <template scope="scope">
-                                    <span v-if="scope.row.gain<0" style="color:red">{{ scope.row.gain }}</span>
-                                    <span v-else style="color:#606266">{{ scope.row.gain }}</span>
+                                    <span v-if="scope.row.gain<0" style="color:red">{{ parseFloat(scope.row.gain).toFixed(2) }}</span>
+                                    <span v-else style="color:#606266">{{ parseFloat(scope.row.gain).toFixed(2) }}</span>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -145,8 +163,9 @@
                                     label="Gain(%)"
                                     width="90">
                                 <template scope="scope">
-                                    <span v-if="scope.row.gainp<0" style="color:red">{{ scope.row.gainp }}</span>
-                                    <span v-else style="color:#606266">{{ scope.row.gainp }}</span>
+                                    <span v-if="scope.row.gainp<0" style="color:red">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
+                                    <span v-else style="color:#606266">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
+
                                 </template>
 
 
@@ -252,7 +271,10 @@
                         if (!values.every(value => isNaN(value))) {
                             sums[index] = values.reduce((prev, curr) => {
                                 const value = Number(curr)
+                                console.log(value)
+                                // value.toFixed(2);
                                 if (!isNaN(value)) {
+                                    // console.log((prev + curr).toFixed(2));
                                     return prev + curr
                                 } else {
                                     return prev
@@ -355,7 +377,7 @@
                         const child_tr = s_table.getElementsByTagName('tr')[0]
                         // console.log(child_tr)
                         child_tr.childNodes.forEach(item => {
-                            item.setAttribute('style', 'border: 1px solid #1A936F')
+                            item.setAttribute('style', 'border: 1px solid #1A936F;height:100px')
                         })
                     })
                 },

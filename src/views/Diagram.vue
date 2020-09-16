@@ -15,7 +15,7 @@
             </el-header>
 
             <el-container>
-                <el-aside width="200px" style="height: 700px">
+                <el-aside width="200px" style="height: 750px">
                     <el-menu :default-openeds="['/Diagram']" :default-active="$route.path"
                              router
 
@@ -63,6 +63,8 @@
 
                             <div id="chartLine" class="HelloWorld echart-box" style="width: 100%;height: 280px;"></div>
 
+                            <el-divider></el-divider>
+                            <h3>Today</h3>
                             <el-row>
                                 <el-col :span="12"><div class="grid-content bg-purple">
 
@@ -105,8 +107,8 @@
                                         prop="gainp"
                                         label="Gain(%)">
                                     <template scope="scope">
-                                        <span v-if="scope.row.gainp>0" style="color:green">{{ scope.row.gainp }}</span>
-                                        <span v-else style="color:#606266">{{ scope.row.gainp }}</span>
+                                        <span v-if="scope.row.gainp>0" style="color:green">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
+                                        <span v-else style="color:#606266">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -131,8 +133,8 @@
                                         prop="gainp"
                                         label="Gain(%)">
                                     <template scope="scope">
-                                        <span v-if="scope.row.gainp<0" style="color:red">{{ scope.row.gainp }}</span>
-                                        <span v-else style="color:#606266">{{ scope.row.gainp }}</span>
+                                        <span v-if="scope.row.gainp<0" style="color:red">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
+                                        <span v-else style="color:#606266">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -199,7 +201,7 @@
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
                             picker.$emit('pick', [start, end]);
                         }
                     }, {
@@ -207,7 +209,7 @@
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 15);
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 14);
                             picker.$emit('pick', [start, end]);
                         }
                     }, {
@@ -215,7 +217,7 @@
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
                             picker.$emit('pick', [start, end]);
                         }
                     }]
@@ -234,7 +236,7 @@
             //获取当前日期和前七天日期
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
             var seperator1 = "-";
             var year1 = start.getFullYear();
             var month1 = start.getMonth() + 1;
@@ -326,9 +328,9 @@
 
 
 
-            //柱状图Gain
-            axios.get('http://localhost:3000/Gain').then((response) => {
-                // console.log(response);
+            //饼状图Investment
+            axios.get(_this.apiUrl+'/portfolio/typeVal').then((response) => {
+                console.log(response);
                 // console.log(response.data.length);
                 if (response.status == 200) {
                     _this.datas1.length = 0; //清空数组
@@ -340,8 +342,8 @@
                 }
             });
 
-            //柱状图Lose
-            axios.get('http://localhost:3000/Lose').then((response) => {
+            //饼状图NetWorth
+            axios.get(_this.apiUrl+'/portfolio/cashAndInvestmentVal').then((response) => {
                 // console.log(response);
                 // console.log(response.data.length);
                 if (response.status == 200) {
@@ -354,13 +356,15 @@
                 }
             });
             //TOP5 Gainer
-            axios.get('http://localhost:3000/Top5Gainers').then(function (resp) {
+            axios.get(_this.apiUrl+'/mover/top5Gainer').then(function (resp) {
+                // console.log(resp);
                 _this.tableData1=resp.data
 
             });
 
             //TOP5 Loser
-            axios.get('http://localhost:3000/Top5Losers').then(function (resp) {
+            axios.get(_this.apiUrl+'/mover/top5Loser').then(function (resp) {
+                // console.log(resp);
                 _this.tableData2=resp.data
 
             })
@@ -432,17 +436,19 @@
                     },
                     yAxis: {
                         x: 'center',
+                        name:'assets($)',
                         type: 'value',
                     },
-                    series: [{
-                        name: 'Investment Value',
-                        type: 'line',
-                        data: this.datas4
-                    },
+                    series: [
                         {
                             name:'Net Worth',
                             type:'line',
                             data:this.datas5
+                        },
+                        {
+                            name: 'Investment Value',
+                            type: 'line',
+                            data: this.datas4
                         },
                         {
                             name:'Cash Value',
@@ -461,7 +467,7 @@
                 let options = {
                     color: ["#9FE6B8","#37A2DA", "#FFDB5C", "#fb7293"],
                     title: {
-                        text: "Gain",
+                        text: "Investment",
                         left: "center",
                     },
                     tooltip: {
@@ -498,10 +504,9 @@
                 let myChart = this.$echarts.init(document.getElementById("myChart2"));
                 //2、构造图表数据
                 let options = {
-
-
+                    color: ["#284D78","#6F6F6F"],
                     title: {
-                        text: "Lose",
+                        text: "Net Worth",
                         left: "center",
                     },
                     tooltip: {
