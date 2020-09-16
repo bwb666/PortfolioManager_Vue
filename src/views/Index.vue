@@ -57,28 +57,28 @@
                                 <el-card style="width:32%;margin-bottom: 20px;background:#F56C6C;height:200px;" shadow="hover" body-style="display:flex;padding:0">
                                     <i class="el-icon-user" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom:10px;color:#f9fafc">quantity:{{ bondshare }}</p>
+                                        <p class="money" style="font-size: 40px;margin-bottom:10px;color:#f9fafc">{{ bondshare }}</p>
                                         <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">Bond</p>
                                     </div>
                                 </el-card>
                                 <el-card style="width:32%;background:#F08080;height:200px;" shadow="hover" body-style="display:flex;padding:0">
                                     <i class="el-icon-chat-dot-square" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">quantity:{{ Stockshare }}</p>
+                                        <p class="money" style="font-size: 40px;margin-bottom: 10px;color:#f9fafc">{{ Stockshare }}</p>
                                         <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">Stocks</p>
                                     </div>
                                 </el-card>
                                 <el-card style="width:32%;background:#FFC0CB;height:200px;" shadow="hover" body-style="display:flex;padding:0">
                                     <i class="el-icon-news" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">quantity:{{ Futureshare }}</p>
+                                        <p class="money" style="font-size: 40px;margin-bottom: 10px;color:#f9fafc">{{ Futureshare }}</p>
                                         <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">Futures</p>
                                     </div>
                                 </el-card>
                                 <el-card style="width:32%;background:#67C23A;height:200px;" shadow="hover" body-style="display:flex;padding:0">
                                     <i class="el-icon-s-data" style="font-size: 50px;width:80px;height:100px;text-align: center;padding:20px;line-height: 120px;color:#f9fafc;"></i>
                                     <div class="detail" style="margin-left: 15px;display: flex;flex-direction: column;justify-content: center">
-                                        <p class="money" style="font-size: 30px;margin-bottom: 10px;color:#f9fafc">quantity:{{ ETFshare }}</p>
+                                        <p class="money" style="font-size: 40px;margin-bottom: 10px;color:#f9fafc">{{ ETFshare }}</p>
                                         <p class="txt" style="font-size:30px;text-align: center;color:#f9fafc">ETFs</p>
                                     </div>
                                 </el-card>
@@ -268,8 +268,6 @@
                     _this.card.push(_this.datas1[i].value)
                 }
             });
-
-            console.log(a)
         },
         watch:{
             datas1: {
