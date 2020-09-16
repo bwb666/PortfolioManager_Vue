@@ -107,7 +107,7 @@
                                         prop="gainp"
                                         label="Gain(%)">
                                     <template scope="scope">
-                                        <span v-if="scope.row.gainp>0" style="color:green">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
+                                        <span v-if="parseFloat(scope.row.gainp)>0" style="color:green">{{ parseFloat(scope.row.gainp).toFixed(2)+'%' }}</span>
                                         <span v-else style="color:#606266">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
                                     </template>
                                 </el-table-column>
@@ -133,8 +133,8 @@
                                         prop="gainp"
                                         label="Gain(%)">
                                     <template scope="scope">
-                                        <span v-if="scope.row.gainp<0" style="color:red">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
-                                        <span v-else style="color:#606266">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
+                                        <span v-if="parseFloat(scope.row.gainp)<0" style="color:red">{{ parseFloat(scope.row.gainp).toFixed(2)+'%' }}</span>
+                                        <span v-else style="color:#606266">{{ parseFloat(scope.row.gainp).toFixed(2)+'%' }}</span>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -465,7 +465,7 @@
                 let myChart = this.$echarts.init(document.getElementById("myChart1"));
                 //2、构造图表数据
                 let options = {
-                    color: ["#9FE6B8","#37A2DA", "#FFDB5C", "#fb7293"],
+                    color: ["#FFDB5C", "#ff9f7f", "#fb7293", "#E062AE", "#E690D1", "#e7bcf3", "#9d96f5", "#8378EA", "#96BFFF"],
                     title: {
                         text: "Investment",
                         left: "center",
@@ -504,7 +504,7 @@
                 let myChart = this.$echarts.init(document.getElementById("myChart2"));
                 //2、构造图表数据
                 let options = {
-                    color: ["#284D78","#6F6F6F"],
+                    color: ["#37A2DA","#9FE6B8"],
                     title: {
                         text: "Net Worth",
                         left: "center",

@@ -163,8 +163,8 @@
                                     label="Gain(%)"
                                     width="90">
                                 <template scope="scope">
-                                    <span v-if="scope.row.gainp<0" style="color:red">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
-                                    <span v-else style="color:#606266">{{ parseFloat(scope.row.gainp).toFixed(2) }}</span>
+                                    <span v-if="parseFloat(scope.row.gainp)<0" style="color:red">{{ parseFloat(scope.row.gainp).toFixed(2)+'%'}}</span>
+                                    <span v-else style="color:#606266">{{ parseFloat(scope.row.gainp).toFixed(2)+'%' }}</span>
 
                                 </template>
 
@@ -266,18 +266,17 @@
                 columns.forEach((column, index) => {
                     if (index === 0) {
                         sums[index] = 'TOTAL'
-                    } else if (index === 6 ||index === 8 || index === 9|| index === 9|| index === 10|| index === 11|| index === 12|| index === 13) {
+                    } else if (index === 6 ||index === 8 || index === 9|| index === 10|| index === 11) {
                         const values = data.map(item => Number(item[column.property]))
                         if (!values.every(value => isNaN(value))) {
                             sums[index] = values.reduce((prev, curr) => {
                                 const value = Number(curr)
-                                console.log(value)
                                 // value.toFixed(2);
                                 if (!isNaN(value)) {
                                     // console.log((prev + curr).toFixed(2));
-                                    return prev + curr
+                                    return Math.floor((prev + curr) * 100) / 100;
                                 } else {
-                                    return prev
+                                    return Math.floor(prev * 100) / 100;
                                 }
                             }, 0)
                         } else {
@@ -329,7 +328,7 @@
             deleteItem(row){
                 // alert(row.id);
                 const _this=this;
-                axios.post('http://portfolio-manager-git-portfolio-manager.apps.us-east-2.starter.openshift-online.com/investment/'+row.id).then(function (resp) {
+                axios.post(_this.apiUrl+'/investment/'+row.id).then(function (resp) {
                    console.log(resp);
                     _this.$alert('Delete completed!', 'Success', {
                         confirmButtonText: 'OK',
@@ -378,6 +377,9 @@
                         // console.log(child_tr)
                         child_tr.childNodes.forEach(item => {
                             item.setAttribute('style', 'border: 1px solid #1A936F;height:100px')
+                            // if(item.index==8){
+                            //
+                            // }
                         })
                     })
                 },
