@@ -15,7 +15,7 @@
             </el-header>
 
             <el-container>
-                <el-aside width="200px" style="height: 750px">
+                <el-aside width="200px" style="height: 800px">
                     <el-menu :default-openeds="['/Diagram']" :default-active="$route.path"
                              router
 
@@ -197,7 +197,7 @@
                 },
                 pickerOptions: {
                     shortcuts: [{
-                        text: '最近一周',
+                        text: 'Last Week',
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -205,7 +205,7 @@
                             picker.$emit('pick', [start, end]);
                         }
                     }, {
-                        text: '最近半个月',
+                        text: 'Half Month',
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();
@@ -213,7 +213,7 @@
                             picker.$emit('pick', [start, end]);
                         }
                     }, {
-                        text: '最近一个月',
+                        text: 'Last Month',
                         onClick(picker) {
                             const end = new Date();
                             const start = new Date();

@@ -45,7 +45,7 @@
                     <body style="margin-top: 15px">
 
                     <el-input v-model="search" style="display: inline-block;width: 900px"
-                              placeholder="Please input symbol or name of the portfolio">
+                              placeholder="Please input symbol or name of the investment">
                     </el-input>
                     <el-button type="primary" plain @click="resetDateFilter" style="margin-left: 25px">Reset Type</el-button>
                     <el-button type="warning" icon="el-icon-plus" circle style="margin-left: 25px" @click="add()"></el-button>
@@ -120,7 +120,7 @@
                             <el-table-column
                                     prop="currentPrice"
                                     label="Current Price"
-                                    width="80">
+                                    width="115">
                                 <template scope="scope">
                                     {{parseFloat(scope.row.currentPrice).toFixed(2) }}
                                 </template>
@@ -128,7 +128,7 @@
                             <el-table-column
                                     prop="currentValue"
                                     label="Current Value"
-                                    width="100">
+                                    width="120">
                                 <template scope="scope">
                                     {{parseFloat(scope.row.currentValue).toFixed(2) }}
                                 </template>
@@ -136,7 +136,7 @@
                             <el-table-column
                                     prop="totalIncome"
                                     label="Total Income"
-                                    width="100">
+                                    width="115">
                                 <template scope="scope">
                                     {{parseFloat(scope.row.totalIncome).toFixed(2) }}
                                 </template>
@@ -144,7 +144,7 @@
                             <el-table-column
                                     prop="netVal"
                                     label="Net Val"
-                                    width="90">
+                                    width="100">
                                 <template scope="scope">
                                     {{parseFloat(scope.row.netVal).toFixed(2) }}
                                 </template>
@@ -152,7 +152,7 @@
                             <el-table-column
                                     prop="gain"
                                     label="Gain($)"
-                                    width="90">
+                                    width="100">
                                 <template scope="scope">
                                     <span v-if="scope.row.gain<0" style="color:red">{{ parseFloat(scope.row.gain).toFixed(2) }}</span>
                                     <span v-else style="color:#606266">{{ parseFloat(scope.row.gain).toFixed(2) }}</span>
@@ -175,7 +175,8 @@
 
                             <el-table-column
                                     align="center"
-                                    label="operating">
+                                    label="operating"
+                                    width="100">
 
                                 <template slot-scope="scope">
                                     <template >
@@ -376,7 +377,7 @@
                         const child_tr = s_table.getElementsByTagName('tr')[0]
                         // console.log(child_tr)
                         child_tr.childNodes.forEach(item => {
-                            item.setAttribute('style', 'border: 1px solid #1A936F;height:100px')
+                            item.setAttribute('style', 'border: 1px solid #1A936F;height:70px')
                             // if(item.index==8){
                             //
                             // }
