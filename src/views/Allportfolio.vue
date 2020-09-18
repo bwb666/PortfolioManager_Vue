@@ -357,7 +357,7 @@
         },
         created(){
             const _this=this;
-            // console.log(_this.apiUrl);
+
 
             axios.get(_this.apiUrl+'/portfolio/all').then(function (resp) {
                 // console.log(resp)

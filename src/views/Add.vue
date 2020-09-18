@@ -225,7 +225,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         // alert('submit!');
-                        console.log(_this.ruleForm)
+                        console.log(_this.ruleForm);
                         axios.post(_this.apiUrl+'/investment',_this.ruleForm).then(function (resp) {
                             if(resp.status ==200){
                                 _this.$alert('Add completed!', 'Success', {
@@ -260,34 +260,12 @@
             },
             getSymbolOfType(){
                 const _this = this;
-                // console.log(_this.ruleForm.type);
-                // alert()
-                // axios.get('http://localhost:3000/typeOfsymbol?type='+_this.ruleForm.type).then(function (resp) {
-                //     // console.log(resp.data.symbol)
-                //     // console.log(resp.status)
-                //     if(resp.status === 200){
-                //         let arr = [];
-                //         resp.data.forEach((resp,index)=>{
-                //             // console.log(resp.symbol);
-                //             arr[index]={
-                //
-                //                 symbol:resp.symbol,
-                //                 label:resp.symbol,
-                //             }
-                //         })
-                //         _this.symbolList = arr
-                //     }
-                //     // _this.tableData = resp.data
-                // });
                 axios.get(_this.apiUrl+'/product/'+_this.ruleForm.type).then(function (resp) {
                     console.log(resp);
                     const a=resp.data;
-                    // let arr1 = [];
-                    // let arr2 = [];
+
                     _this.arr1=Object.keys(a);
                     _this.arr2=Object.values(a);
-                    // console.log(_this.arr1);
-                    // console.log(_this.arr2);
 
                     if(resp.status === 200){
                         let arr = [];
@@ -305,7 +283,7 @@
                 });
             },
             fillName(val){
-                console.log(val);
+                // console.log(val);
                 let strName;
                 let num;
                 strName = val;
@@ -316,7 +294,7 @@
                     }
 
                 }
-                console.log(this.arr2[num])
+                // console.log(this.arr2[num])
                 this.ruleForm.name=this.arr2[num];
 
 

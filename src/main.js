@@ -13,6 +13,7 @@ Vue.prototype.apiUrl = apiUrl.apiUrl;
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
+
 new Vue({
   router,
   store,
